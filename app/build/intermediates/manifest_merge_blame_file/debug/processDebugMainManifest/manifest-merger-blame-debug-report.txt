@@ -1,0 +1,226 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.themoon.y1"
+4    android:versionCode="900061"
+5    android:versionName="0.11.6 hotfix 4 (custom: Emby Sync)" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="17"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.SHUTDOWN" />
+11-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:5-103
+11-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+12-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:5-76
+12-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:22-73
+13    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+13-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:5-73
+13-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:22-70
+14    <uses-permission android:name="android.permission.BLUETOOTH" />
+14-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:5-68
+14-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:22-65
+15    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+15-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:5-74
+15-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:22-71
+16    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+16-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:5-79
+16-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:22-76
+17    <uses-permission android:name="android.permission.SET_TIME" />
+17-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:5-67
+17-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:22-64
+18    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+18-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:5-80
+18-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:22-77
+19    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+19-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:5-81
+19-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:22-78
+20    <uses-permission android:name="android.permission.BLUETOOTH" />
+20-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:5-68
+20-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:22-65
+21    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+21-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:5-74
+21-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:22-71
+22    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+22-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:15:5-76
+22-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:15:22-73
+23    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+23-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:16:5-76
+23-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:16:22-73
+24    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+24-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:5-109
+24-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:22-70
+25    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+25-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:5-116
+25-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:22-77
+26    <uses-permission android:name="android.permission.VIBRATE" />
+26-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:5-66
+26-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:22-63
+27    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+27-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:5-81
+27-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:22-78
+28    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+28-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:5-79
+28-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:22-76
+29    <uses-permission android:name="android.permission.INTERNET" />
+29-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:5-67
+29-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:22-64
+30    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+30-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:5-79
+30-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:22-76
+31    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+31-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:5-81
+31-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:22-78
+32    <uses-permission android:name="android.permission.WAKE_LOCK" />
+32-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:5-68
+32-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:22-65
+33    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+33-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:5-80
+33-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:22-77
+34    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+34-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:5-71
+34-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:22-68
+35    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+35-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:5-80
+35-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:22-77
+36    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+36-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:29:5-83
+36-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:29:22-80
+37    <!-- 포그라운드 서비스 기본 권한 -->
+38    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+38-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:31:5-77
+38-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:31:22-74
+39    <!-- (안드로이드 14 이상 대비) 미디어 재생 전용 포그라운드 권한 -->
+40    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+40-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:33:5-92
+40-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:33:22-89
+41
+42    <application
+42-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:5-82:19
+43        android:name="androidx.multidex.MultiDexApplication"
+43-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:35:9-61
+44        android:allowBackup="true"
+44-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:36:9-35
+45        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+45-->[androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:24:18-86
+46        android:dataExtractionRules="@xml/data_extraction_rules"
+46-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:37:9-65
+47        android:debuggable="true"
+48        android:extractNativeLibs="true"
+49        android:fullBackupContent="@xml/backup_rules"
+49-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:38:9-54
+50        android:icon="@mipmap/ic_launcher"
+50-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:39:9-43
+51        android:label="@string/app_name"
+51-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:40:9-41
+52        android:roundIcon="@mipmap/ic_launcher_round"
+52-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:41:9-54
+53        android:supportsRtl="true"
+53-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:42:9-35
+54        android:theme="@android:style/Theme.Holo.NoActionBar" >
+54-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:43:9-62
+55        <meta-data
+55-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:46:9-48:66
+56            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+56-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:47:13-93
+57            android:value="com.themoon.y1.CastOptionsProvider" />
+57-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:48:13-63
+58
+59        <activity
+59-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:49:9-66:20
+60            android:name="com.themoon.y1.MainActivity"
+60-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:50:13-41
+61            android:exported="true"
+61-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:52:13-36
+62            android:launchMode="singleTask" >
+62-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:51:13-44
+63            <intent-filter>
+63-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:53:13-59:29
+64                <action android:name="android.intent.action.MAIN" />
+64-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:17-69
+64-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:25-66
+65
+66                <category android:name="android.intent.category.LAUNCHER" />
+66-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:17-77
+66-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:27-74
+67                <category android:name="android.intent.category.HOME" />
+67-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:57:17-73
+67-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:57:27-70
+68                <category android:name="android.intent.category.DEFAULT" />
+68-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:17-76
+68-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:27-73
+69            </intent-filter>
+70            <intent-filter>
+70-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:60:13-65:29
+71                <action android:name="android.intent.action.VIEW" />
+71-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:17-69
+71-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:25-66
+72
+73                <category android:name="android.intent.category.DEFAULT" />
+73-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:17-76
+73-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:27-73
+74                <category android:name="android.intent.category.BROWSABLE" />
+74-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:63:17-78
+74-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:63:27-75
+75
+76                <data
+76-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:17-76
+77                    android:host="lastfm-callback"
+77-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:43-73
+78                    android:scheme="y1" />
+78-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:23-42
+79            </intent-filter>
+80        </activity>
+81        <activity
+81-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:9-95
+82            android:name="com.themoon.y1.VideoPlayerActivity"
+82-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:19-54
+83            android:screenOrientation="landscape" />
+83-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:55-92
+84        <activity
+84-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:9-88
+85            android:name="com.themoon.y1.GameActivity"
+85-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:19-47
+86            android:screenOrientation="landscape" />
+86-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:48-85
+87
+88        <receiver
+88-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:9-73:20
+89            android:name="com.themoon.y1.BootReceiver"
+89-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:19-47
+90            android:exported="true" >
+90-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:48-71
+91            <intent-filter>
+91-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:70:13-72:29
+92                <action android:name="android.intent.action.BOOT_COMPLETED" />
+92-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:17-79
+92-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:25-76
+93            </intent-filter>
+94        </receiver>
+95        <!--
+96             🚀 [Emby] Daily auto-sync alarm target. Not exported: only this
+97             app's own AlarmManager PendingIntent should ever fire it.
+98        -->
+99        <receiver
+99-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:9-83
+100            android:name="com.themoon.y1.EmbyAutoSyncReceiver"
+100-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:19-55
+101            android:exported="false" />
+101-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:56-80
+102        <receiver
+102-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:9-81:20
+103            android:name="com.themoon.y1.MainActivity$MediaBtnReceiver"
+103-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:19-64
+104            android:exported="true" >
+104-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:65-88
+105            <intent-filter android:priority="999" >
+105-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:13-80:29
+105-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:28-50
+106                <action android:name="android.intent.action.MEDIA_BUTTON" />
+106-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:17-77
+106-->/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:25-74
+107            </intent-filter>
+108        </receiver>
+109    </application>
+110
+111</manifest>

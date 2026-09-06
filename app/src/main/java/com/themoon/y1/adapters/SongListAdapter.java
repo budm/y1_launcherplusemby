@@ -233,6 +233,31 @@ public class SongListAdapter extends BaseAdapter {
             }
         });
 
+        // 🚀 [Scroll acceleration] Same tiered-velocity jump as the on-device
+        // keyboard — a fast spin covers more rows, a slow one still moves
+        // exactly one. Must intercept here (not rely on default focus
+        // search) since that's what the existing "wheel bypass" rows
+        // elsewhere in this app already do for the same reason.
+        btn.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                if (keyCode == 19 || keyCode == 21) {
+                    int step = MainActivity.instance.listScrollStep();
+                    MainActivity.instance.wheelJumpListTo(position - step);
+                    MainActivity.instance.clickFeedback();
+                    return true;
+                }
+                if (keyCode == 20 || keyCode == 22) {
+                    int step = MainActivity.instance.listScrollStep();
+                    MainActivity.instance.wheelJumpListTo(position + step);
+                    MainActivity.instance.clickFeedback();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         // 롱클릭 이벤트
         btn.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

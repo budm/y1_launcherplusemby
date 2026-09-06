@@ -25,6 +25,25 @@ for innioasis y1
 
 ---
 
+## 📋 Custom Fork Changelog
+
+This fork adds Emby server sync and related features on top of the
+original JJ Launcher. See [CHANGELOG.md](CHANGELOG.md) for the full
+version history — the same list shown on-device under
+**Settings → System → System Update**.
+
+**Latest ([900061] - 0.11.6 hotfix 4, custom: Emby Sync):**
+- Emby server sync with daily auto-sync (Wi-Fi + battery aware, with pruning)
+- On-device Emby login via the wheel keyboard
+- Non-blocking sync progress indicator
+- Scroll acceleration for the keyboard and song/artist lists
+- Extended screen timeout options, up to Always On
+- Automatic time & timezone sync
+- Online lyrics lookup (LRCLIB) when no local lyrics are found
+- Self-hosted OTA updates with an in-device changelog viewer
+
+---
+
 ## 🛠️ Note for Users / Bug Reports
 
 > ⚠️ **Important Notice**

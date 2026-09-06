@@ -71,6 +71,9 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <!-- 🚀 [Emby] Daily auto-sync alarm target. Not exported: only this
+             app's own AlarmManager PendingIntent should ever fire it. -->
+        <receiver android:name=".EmbyAutoSyncReceiver" android:exported="false" />
         <receiver android:name=".MainActivity$MediaBtnReceiver" android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

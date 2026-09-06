@@ -1,0 +1,442 @@
+[
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_shuffle.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_shuffle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/xml_backup_rules.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_music_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/music_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_bluetooth.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-hdpi/ic_bluetooth.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_default_album.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/default_album.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_music_list.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/music_list.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_repeat_one.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_repeat_one.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_status_sleep_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_status_sleep_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_repeat.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_repeat.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_wifi.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_wifi.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_volume_down.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_volume_down.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_headphone.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-hdpi/ic_headphone.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_repeat.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_repeat.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_shuffle.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_shuffle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_volume_down.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_volume_down.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_bluetooth.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_bluetooth.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_shuffle.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_shuffle.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_photo_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/photo_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_headphone.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-xhdpi/ic_headphone.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_repeat_one.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_repeat_one.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_repeat_one.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_repeat_one.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_volume_down.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_volume_down.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_repeat_one.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_repeat_one.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_radio_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/radio_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_bluetooth.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_bluetooth.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_playlist.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/playlist.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_volume_down.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_volume_down.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_cover.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/cover.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_wifi.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_wifi.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_headphone.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-mdpi/ic_headphone.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_wifi.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-mdpi/ic_wifi.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_status_speed_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_status_speed_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_headphone.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-xxhdpi/ic_headphone.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_status_speed_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_status_speed_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_status_speed_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_status_speed_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_status_sleep_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_status_sleep_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_bg_volume_popup.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/bg_volume_popup.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_shuffle.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_shuffle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_headphone.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_headphone.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_repeat.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_repeat.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_launcher_background.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_launcher_background.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_status_sleep_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_status_sleep_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_wifi.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-xhdpi/ic_wifi.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_wifi.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_wifi.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_repeat_one.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_repeat_one.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_bluetooth.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-xhdpi/ic_bluetooth.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_volume_down.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_volume_down.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_headphone.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_headphone.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_file_sync.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/file_sync.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_volume_up.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_volume_up.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/layout_activity_video_player.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/layout/activity_video_player.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_setting_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/setting_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/layout_activity_main.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_volume_up.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_volume_up.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_repeat.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_repeat.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_status_speed_solid.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_status_speed_solid.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_launcher_background.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_repeat_one.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_repeat_one.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_repeat.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_repeat.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/xml_data_extraction_rules.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_wifi.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-xxhdpi/ic_wifi.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_volume_up.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_volume_up.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_volume_up.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_volume_up.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_default_back.jpg.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/default_back.jpg"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_launcher_background.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_status_sleep_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_status_sleep_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_status_speed_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_status_speed_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_repeat_one.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_repeat_one.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_status_speed_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_status_speed_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_book.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/book.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_wifi_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/wifi_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_repeat.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_repeat.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxxhdpi_ic_status_sleep_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxxhdpi/ic_status_sleep_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_status_sleep_solid.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_status_sleep_solid.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_volume_up.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_volume_up.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_video_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/video_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_launcher_background.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_bluetooth.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_bluetooth.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_status_speed_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_status_speed_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_launcher_background.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-ldpi_ic_status_sleep_solid.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-ldpi/ic_status_sleep_solid.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_volume_up.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_volume_up.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.themoon.y1.app-main-10:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_icon_podcast.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/icon_podcast.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_volume_down.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_volume_down.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_volume_down.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_volume_down.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_volume_up.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_volume_up.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xhdpi_ic_launcher_background.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xhdpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_shuffle.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_shuffle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_bluetooth.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-mdpi/ic_bluetooth.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_shuffle.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-xxhdpi/ic_shuffle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-anydpi-v21_ic_headphone.xml.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-anydpi-v21/ic_headphone.xml"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable_bluetooth_circle.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable/bluetooth_circle.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_wifi.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-hdpi/ic_wifi.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-xxhdpi_ic_bluetooth.png.flat",
+        "source": "com.themoon.y1.app-main-10:/drawable-xxhdpi/ic_bluetooth.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-mdpi_ic_repeat.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-mdpi/ic_repeat.png"
+    },
+    {
+        "merged": "com.themoon.y1.app-debug-8:/drawable-hdpi_ic_shuffle.png.flat",
+        "source": "com.themoon.y1.app-pngs-4:/drawable-hdpi/ic_shuffle.png"
+    }
+]

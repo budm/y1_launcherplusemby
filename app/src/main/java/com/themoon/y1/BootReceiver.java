@@ -12,6 +12,10 @@ public class BootReceiver extends BroadcastReceiver {
             Intent i = new Intent(context, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
+
+            // 🚀 [Emby] Alarms don't survive reboot — reschedule the daily
+            // auto-sync alarm here if the user has it enabled.
+            com.themoon.y1.managers.EmbyManager.getInstance(context).rescheduleAutoSyncIfEnabled();
         }
     }
 }

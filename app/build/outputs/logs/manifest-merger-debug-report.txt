@@ -1,0 +1,306 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
+MERGED from [extension-opus-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/d7f52c7539e68f1655664ce0aeadd987/transformed/extension-opus-release/AndroidManifest.xml:17:1-24:12
+MERGED from [extension-flac-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/5fe9450d6dfd84e91d4853e25fc63cd9/transformed/extension-flac-release/AndroidManifest.xml:17:1-24:12
+MERGED from [extension-ffmpeg-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/fae69768bb125dd333750187050d51e9/transformed/extension-ffmpeg-release/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.multidex:multidex:2.0.1] /Users/marvindawson/.gradle/caches/transforms-4/750ab2b2445d63570c92f7e4098ba1f8/transformed/multidex-2.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/7f05dd57e050cc971e862497b3f23642/transformed/exoplayer-ui-2.13.3/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:17:1-26:12
+MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.exoplayer:exoplayer-extractor:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/7c7a84d122693b250b6c1abd39ef497b/transformed/exoplayer-extractor-2.13.3/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/f50420775c1201a7de05a4a3d6be648a/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] /Users/marvindawson/.gradle/caches/transforms-4/50ed9e24de2245bea7f5673ab472de7d/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.2.1] /Users/marvindawson/.gradle/caches/transforms-4/47445074da3899c7b771da783bf8374c/transformed/media-1.2.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/8b3149632d8b8d493cdfeaddafd9b756/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/marvindawson/.gradle/caches/transforms-4/a358e690ebd7f0d8a31ac2cdc39d08f9/transformed/lifecycle-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.SHUTDOWN
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:5-103
+	tools:ignore
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:65-100
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:22-64
+uses-permission#android.permission.BLUETOOTH_CONNECT
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:5-76
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:22-73
+uses-permission#android.permission.BLUETOOTH_SCAN
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:5-73
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:22-70
+uses-permission#android.permission.BLUETOOTH
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:5-68
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:5-74
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:22-71
+uses-permission#android.permission.BLUETOOTH_PRIVILEGED
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:22-76
+uses-permission#android.permission.SET_TIME
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:5-67
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:22-64
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:5-80
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:22-78
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:15:5-76
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:15:22-73
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:16:5-76
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:16:22-73
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:5-109
+	tools:ignore
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:71-106
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:22-70
+uses-permission#android.permission.WRITE_SECURE_SETTINGS
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:5-116
+	tools:ignore
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:78-113
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:22-77
+uses-permission#android.permission.VIBRATE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:5-66
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:22-63
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:5-81
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:5-79
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:22-76
+uses-permission#android.permission.INTERNET
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:5-67
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:24:5-79
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:22-76
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:5-81
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:22-78
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:22-65
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:5-80
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:22-77
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:5-71
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:22-68
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:29:5-83
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:29:22-80
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:31:5-77
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:31:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:33:5-92
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:33:22-89
+application
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:5-82:19
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:5-82:19
+MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:11:5-20
+MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:11:5-20
+MERGED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/8b3149632d8b8d493cdfeaddafd9b756/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/8b3149632d8b8d493cdfeaddafd9b756/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+	android:extractNativeLibs
+		INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:42:9-35
+	android:label
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:40:9-41
+	android:fullBackupContent
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:38:9-54
+	android:roundIcon
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:41:9-54
+	tools:targetApi
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:44:9-29
+	android:icon
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:39:9-43
+	android:allowBackup
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:36:9-35
+	android:theme
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:43:9-62
+	android:dataExtractionRules
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:37:9-65
+	tools:replace
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:45:9-74
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:35:9-61
+meta-data#com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:46:9-48:66
+	android:value
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:48:13-63
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:47:13-93
+activity#com.themoon.y1.MainActivity
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:49:9-66:20
+	android:launchMode
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:51:13-44
+	android:exported
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:52:13-36
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:50:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.DEFAULT+category:name:android.intent.category.HOME+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:53:13-59:29
+action#android.intent.action.MAIN
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:17-69
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:17-77
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:27-74
+category#android.intent.category.HOME
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:57:17-73
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:57:27-70
+category#android.intent.category.DEFAULT
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:17-76
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:27-73
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:lastfm-callback+data:scheme:y1
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:60:13-65:29
+action#android.intent.action.VIEW
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:17-69
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:25-66
+category#android.intent.category.BROWSABLE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:63:17-78
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:63:27-75
+data
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:17-76
+	android:host
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:43-73
+	android:scheme
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:23-42
+activity#com.themoon.y1.VideoPlayerActivity
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:9-95
+	android:screenOrientation
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:55-92
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:19-54
+activity#com.themoon.y1.GameActivity
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:9-88
+	android:screenOrientation
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:48-85
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:19-47
+receiver#com.themoon.y1.BootReceiver
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:9-73:20
+	android:exported
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:48-71
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:19-47
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:70:13-72:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:17-79
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:25-76
+receiver#com.themoon.y1.EmbyAutoSyncReceiver
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:9-83
+	android:exported
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:56-80
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:19-55
+receiver#com.themoon.y1.MainActivity$MediaBtnReceiver
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:9-81:20
+	android:exported
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:65-88
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:19-64
+intent-filter#action:name:android.intent.action.MEDIA_BUTTON
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:13-80:29
+	android:priority
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:28-50
+action#android.intent.action.MEDIA_BUTTON
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:17-77
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:25-74
+uses-sdk
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+MERGED from [extension-opus-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/d7f52c7539e68f1655664ce0aeadd987/transformed/extension-opus-release/AndroidManifest.xml:20:5-22:41
+MERGED from [extension-opus-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/d7f52c7539e68f1655664ce0aeadd987/transformed/extension-opus-release/AndroidManifest.xml:20:5-22:41
+MERGED from [extension-flac-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/5fe9450d6dfd84e91d4853e25fc63cd9/transformed/extension-flac-release/AndroidManifest.xml:20:5-22:41
+MERGED from [extension-flac-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/5fe9450d6dfd84e91d4853e25fc63cd9/transformed/extension-flac-release/AndroidManifest.xml:20:5-22:41
+MERGED from [extension-ffmpeg-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/fae69768bb125dd333750187050d51e9/transformed/extension-ffmpeg-release/AndroidManifest.xml:20:5-22:41
+MERGED from [extension-ffmpeg-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/fae69768bb125dd333750187050d51e9/transformed/extension-ffmpeg-release/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.multidex:multidex:2.0.1] /Users/marvindawson/.gradle/caches/transforms-4/750ab2b2445d63570c92f7e4098ba1f8/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.1] /Users/marvindawson/.gradle/caches/transforms-4/750ab2b2445d63570c92f7e4098ba1f8/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/7f05dd57e050cc971e862497b3f23642/transformed/exoplayer-ui-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-ui:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/7f05dd57e050cc971e862497b3f23642/transformed/exoplayer-ui-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:7:5-9:41
+MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.exoplayer:exoplayer-extractor:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/7c7a84d122693b250b6c1abd39ef497b/transformed/exoplayer-extractor-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-extractor:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/7c7a84d122693b250b6c1abd39ef497b/transformed/exoplayer-extractor-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/f50420775c1201a7de05a4a3d6be648a/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/f50420775c1201a7de05a4a3d6be648a/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] /Users/marvindawson/.gradle/caches/transforms-4/50ed9e24de2245bea7f5673ab472de7d/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/marvindawson/.gradle/caches/transforms-4/50ed9e24de2245bea7f5673ab472de7d/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.2.1] /Users/marvindawson/.gradle/caches/transforms-4/47445074da3899c7b771da783bf8374c/transformed/media-1.2.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.2.1] /Users/marvindawson/.gradle/caches/transforms-4/47445074da3899c7b771da783bf8374c/transformed/media-1.2.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/8b3149632d8b8d493cdfeaddafd9b756/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/marvindawson/.gradle/caches/transforms-4/8b3149632d8b8d493cdfeaddafd9b756/transformed/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/marvindawson/.gradle/caches/transforms-4/a358e690ebd7f0d8a31ac2cdc39d08f9/transformed/lifecycle-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /Users/marvindawson/.gradle/caches/transforms-4/a358e690ebd7f0d8a31ac2cdc39d08f9/transformed/lifecycle-runtime-2.0.0/AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml

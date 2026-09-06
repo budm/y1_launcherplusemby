@@ -161,6 +161,19 @@ public class Y1WebServer extends Thread {
                             "</div>" +
                             "</div>" +
 
+                            // 🚀 [추가] Emby Server Login Box
+                            "<div class='box'>" +
+                            "<h3 style='margin-top:0; color:#B39DDB; font-size:16px;'>\uD83C\uDFB5 Emby Server</h3>" +
+                            "<div style='display:flex; gap:8px; margin-bottom:8px;'>" +
+                            "<input type='text' id='embyHost' placeholder='host:port (e.g. 192.168.1.50:8096)' style='flex:1;'>" +
+                            "</div>" +
+                            "<div style='display:flex; gap:8px;'>" +
+                            "<input type='text' id='embyUser' placeholder='Username' style='flex:1;'>" +
+                            "<input type='password' id='embyPass' placeholder='Password' style='flex:1; background:#2A2A35; color:#E0E0E0; border-radius:12px; padding:12px; font-size:14px; border:none; outline:none;'>" +
+                            "<button class='action' onclick='loginEmby()'>Connect</button>" +
+                            "</div>" +
+                            "</div>" +
+
                             // 파일 리스트 박스
                             "<div class='box' id='fileList'>Loading...</div>" +
 
@@ -267,6 +280,16 @@ public class Y1WebServer extends Thread {
                             "  fetch('/api/lastfm_login?user=' + encodeURIComponent(u) + '&pass=' + encodeURIComponent(p), {method:'POST'}).then(r=>r.text()).then(res=>{" +
                             "    if(res === 'OK') { alert('Last.fm Logged In Successfully!'); document.getElementById('lfmUser').value=''; document.getElementById('lfmPass').value=''; }" +
                             "    else alert('Login Failed: ' + res);" +
+                            "  });" +
+                            "}" +
+                            "function loginEmby() {" +
+                            "  var h = document.getElementById('embyHost').value;" +
+                            "  var u = document.getElementById('embyUser').value;" +
+                            "  var p = document.getElementById('embyPass').value;" +
+                            "  if(!h || !u || !p) { alert('Please enter server, username, and password.'); return; }" +
+                            "  fetch('/api/emby_login?host=' + encodeURIComponent(h) + '&user=' + encodeURIComponent(u) + '&pass=' + encodeURIComponent(p), {method:'POST'}).then(r=>r.text()).then(res=>{" +
+                            "    if(res === 'OK') { alert('Emby Connected Successfully!'); document.getElementById('embyPass').value=''; }" +
+                            "    else alert('Connection Failed: ' + res);" +
                             "  });" +
                             "}" +
                             "function deleteItem(e, name) { " +
@@ -447,6 +470,38 @@ public class Y1WebServer extends Thread {
                     if (result[0] == null) result[0] = "Timeout or Network Error";
                     
                     os.write(("HTTP/1.1 200 OK\r\n\r\n" + result[0]).getBytes("UTF-8"));
+                }
+
+                // 🚀 [추가] Emby API Login via Web
+                else if (method.equals("POST") && path.startsWith("/api/emby_login")) {
+                    String q = path.split("\\?")[1];
+                    String[] params = q.split("&");
+                    String embyHost = "", embyUser = "", embyPass = "";
+                    for (String p : params) {
+                        if (p.startsWith("host=")) embyHost = URLDecoder.decode(p.substring(5), "UTF-8");
+                        if (p.startsWith("user=")) embyUser = URLDecoder.decode(p.substring(5), "UTF-8");
+                        if (p.startsWith("pass=")) embyPass = URLDecoder.decode(p.substring(5), "UTF-8");
+                    }
+
+                    final String[] embyResult = new String[1];
+                    final java.util.concurrent.CountDownLatch embyLatch = new java.util.concurrent.CountDownLatch(1);
+                    com.themoon.y1.managers.EmbyManager.getInstance(context).login(embyHost, embyUser, embyPass, new com.themoon.y1.managers.EmbyManager.LoginCallback() {
+                        @Override
+                        public void onSuccess() {
+                            embyResult[0] = "OK";
+                            embyLatch.countDown();
+                        }
+                        @Override
+                        public void onError(String errorMsg) {
+                            embyResult[0] = errorMsg;
+                            embyLatch.countDown();
+                        }
+                    });
+
+                    try { embyLatch.await(15, java.util.concurrent.TimeUnit.SECONDS); } catch(Exception e){}
+                    if (embyResult[0] == null) embyResult[0] = "Timeout or Network Error";
+
+                    os.write(("HTTP/1.1 200 OK\r\n\r\n" + embyResult[0]).getBytes("UTF-8"));
                 }
 
                 // 5️⃣ [API] 파일 읽기 (스트리밍, 다운로드, 코드 불러오기)

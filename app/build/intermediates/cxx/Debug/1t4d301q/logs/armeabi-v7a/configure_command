@@ -1,0 +1,18 @@
+/Users/marvindawson/Library/Android/sdk/cmake/3.22.1/bin/cmake \
+  -H/Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/cpp \
+  -DCMAKE_SYSTEM_NAME=Android \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCMAKE_SYSTEM_VERSION=17 \
+  -DANDROID_PLATFORM=android-17 \
+  -DANDROID_ABI=armeabi-v7a \
+  -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a \
+  -DANDROID_NDK=/Users/marvindawson/Library/Android/sdk/ndk/26.1.10909125 \
+  -DCMAKE_ANDROID_NDK=/Users/marvindawson/Library/Android/sdk/ndk/26.1.10909125 \
+  -DCMAKE_TOOLCHAIN_FILE=/Users/marvindawson/Library/Android/sdk/ndk/26.1.10909125/build/cmake/android.toolchain.cmake \
+  -DCMAKE_MAKE_PROGRAM=/Users/marvindawson/Library/Android/sdk/cmake/3.22.1/bin/ninja \
+  -DCMAKE_CXX_FLAGS=-std=c++11 \
+  -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/marvindawson/Downloads/y1_launcherplusemby/app/build/intermediates/cxx/Debug/1t4d301q/obj/armeabi-v7a \
+  -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/Users/marvindawson/Downloads/y1_launcherplusemby/app/build/intermediates/cxx/Debug/1t4d301q/obj/armeabi-v7a \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -B/Users/marvindawson/Downloads/y1_launcherplusemby/app/.cxx/Debug/1t4d301q/armeabi-v7a \
+  -GNinja

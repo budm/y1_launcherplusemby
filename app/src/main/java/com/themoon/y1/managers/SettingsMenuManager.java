@@ -422,7 +422,136 @@ public class SettingsMenuManager {
         });
         main.containerSettingsItems.addView(btnLastFm);
 
+        final EmbyManager emby = EmbyManager.getInstance(main);
+        final String embyStatusText = emby.isEnabled() ? emby.getHost() : t("Not connected");
+        final LinearLayout btnEmbyStatus = createSettingRow(t("Emby Server"), embyStatusText + " 〉");
+        btnEmbyStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                showEmbyGuideDialog();
+            }
+        });
+        main.containerSettingsItems.addView(btnEmbyStatus);
+
+        final LinearLayout btnEmbySync = createSettingRow(t("Sync Now"), "〉 ");
+        btnEmbySync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                EmbyManager.getInstance(main).startSync(main);
+            }
+        });
+        main.containerSettingsItems.addView(btnEmbySync);
+
+        final EmbyManager embyAuto = EmbyManager.getInstance(main);
+        final LinearLayout btnEmbyAutoSync = createSettingRow(t("Auto Sync (Daily)"),
+                embyAuto.isAutoSyncEnabled() ? t("ON") : t("OFF"));
+        btnEmbyAutoSync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                boolean newState = !embyAuto.isAutoSyncEnabled();
+                embyAuto.setAutoSyncEnabled(newState);
+                TextView tvStatus = (TextView) btnEmbyAutoSync.getChildAt(1);
+                tvStatus.setText(newState ? t("ON") : t("OFF"));
+                Toast.makeText(main, newState
+                        ? t("Auto sync enabled") + " (" + embyAuto.getAutoSyncHour() + ":00)"
+                        : t("Auto sync disabled"), Toast.LENGTH_SHORT).show();
+            }
+        });
+        main.containerSettingsItems.addView(btnEmbyAutoSync);
+
+        final LinearLayout btnEmbySyncTime = createSettingRow(t("Sync Time"),
+                String.format(java.util.Locale.US, "%02d:00", embyAuto.getAutoSyncHour()));
+        btnEmbySyncTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                int nextHour = (embyAuto.getAutoSyncHour() + 1) % 24;
+                embyAuto.setAutoSyncHour(nextHour);
+                TextView tvTime = (TextView) btnEmbySyncTime.getChildAt(1);
+                tvTime.setText(String.format(java.util.Locale.US, "%02d:00", nextHour));
+            }
+        });
+        main.containerSettingsItems.addView(btnEmbySyncTime);
+
         focusFirstItem();
+    }
+
+    // 🚀 [Emby] Same approach as Last.fm: credentials are typed on a real
+    // keyboard via the Web Server page (POST /api/emby_login), not the
+    // on-device wheel keyboard. This dialog just points the user there.
+    private void showEmbyGuideDialog() {
+        final Dialog dialog = new Dialog(main);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        float d = main.getResources().getDisplayMetrics().density;
+
+        final LinearLayout rootLayout = new LinearLayout(main);
+        rootLayout.setOrientation(LinearLayout.VERTICAL);
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(ThemeManager.getOverlayBackgroundColor() | 0xEE000000);
+        bg.setCornerRadius(15 * d);
+        bg.setStroke((int) (1 * d), 0x33FFFFFF);
+        rootLayout.setBackground(bg);
+        rootLayout.setPadding((int) (16 * d), (int) (18 * d), (int) (16 * d), (int) (16 * d));
+
+        TextView tvTitle = new TextView(main);
+        tvTitle.setText("\uD83C\uDFB5 " + t("Emby Server Setup"));
+        tvTitle.setTextColor(ThemeManager.getTextColorPrimary());
+        tvTitle.setTextSize(18f);
+        tvTitle.setTypeface(ThemeManager.getCustomFont(), Typeface.BOLD);
+        tvTitle.setGravity(Gravity.CENTER);
+        tvTitle.setPadding(0, 0, 0, (int) (12 * d));
+        rootLayout.addView(tvTitle);
+
+        TextView tvMsg = new TextView(main);
+        tvMsg.setText(t("Enter your Emby server address, username, and password below, or start Wireless PC Upload (Web Server) to enter them from a PC or smartphone browser instead."));
+        tvMsg.setTextColor(ThemeManager.getTextColorSecondary());
+        tvMsg.setTextSize(14f);
+        tvMsg.setGravity(Gravity.CENTER);
+        tvMsg.setPadding((int) (4 * d), 0, (int) (4 * d), (int) (16 * d));
+        rootLayout.addView(tvMsg);
+
+        Button btnEnterManually = new Button(main);
+        btnEnterManually.setText(t("Enter On-Device"));
+        btnEnterManually.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                main.currentKeyboardMode = 4; // Emby host entry — chains to username, then password
+                main.changeScreen(7); // STATE_WIFI_KEYBOARD
+            }
+        });
+        rootLayout.addView(btnEnterManually);
+
+        Button btnClose = new Button(main);
+        btnClose.setText(t("Close"));
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        rootLayout.addView(btnClose);
+
+        dialog.setContentView(rootLayout);
+        Window window = dialog.getWindow();
+        if (window != null) window.setLayout((int) (300 * d), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        rootLayout.postDelayed(new Runnable() {
+            public void run() {
+                for (int i = 0; i < rootLayout.getChildCount(); i++) {
+                    if (rootLayout.getChildAt(i).isFocusable()) {
+                        rootLayout.getChildAt(i).requestFocus();
+                        break;
+                    }
+                }
+            }
+        }, 50);
     }
 
     private void showLastFmLoginGuideDialog() {

@@ -1,0 +1,4 @@
+/Users/marvindawson/Library/Android/sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /Users/marvindawson/Downloads/y1_launcherplusemby/app/.cxx/Debug/1t4d301q/armeabi-v7a \
+  opensles_sink

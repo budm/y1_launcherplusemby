@@ -90,7 +90,7 @@ import org.conscrypt.Conscrypt;
 
 public class MainActivity extends Activity {
     // 주의: 주소 맨 끝에 반드시 슬래시(/)를 붙여주세요!
-    private static final String SERVER_BASE_URL = "http://knock2025.cafe24.com/knock_knock/y1/";
+    private static final String SERVER_BASE_URL = "https://raw.githubusercontent.com/budm/y1_launcherplusemby/refs/heads/master/";
     private static final String METADATA_URL = SERVER_BASE_URL + "output-metadata.json";
     // 🚀 [대개조 완료] 원하는 앨범 개수(홀수: 3, 5, 7 등)를 언제든 설정할 수 있는 스마트 제어판
     private int visibleCoversCount = 7; // 💡 5개로 복귀! 테스트 시 7 등으로 여기만 바꾸면 전체 자동 연동됩니다.
@@ -461,12 +461,13 @@ public class MainActivity extends Activity {
 
     public int consecutiveErrorCount = 0;
     // 🚀 [추가] 스캔 진행률 표시용 변수들
-    private ProgressBar pbLoadingProgress;
-    private TextView tvLoadingProgress;
+    // Widened to public so managers/EmbyManager can reuse this overlay for sync progress.
+    public ProgressBar pbLoadingProgress;
+    public TextView tvLoadingProgress;
     private int totalAudioFiles = 0;
     private int scannedAudioFiles = 0;
     // 💡 [초고속 엔진] 수천 곡을 버티기 위한 재활용 리스트뷰와 기존 스크롤뷰
-    private ListView listVirtualSongs;
+    public ListView listVirtualSongs;
     private View scrollViewBrowser;
     public boolean isScreenOffControlEnabled = false;
     public boolean isAutoScanEnabled = true; // 🚀 [추가] 음악 자동 스캔 스위치 기본값
@@ -519,7 +520,14 @@ public class MainActivity extends Activity {
     private TextView tvServerStatus, tvServerIp;
     private Button btnServerToggle;
     // 🚀 [추가] 화면 전체를 덮는 고급 로딩 인디케이터 오버레이
-    private LinearLayout layoutLoadingOverlay;
+    // Widened to public so managers/EmbyManager can reuse this overlay for sync progress.
+    public LinearLayout layoutLoadingOverlay;
+    // 🚀 [Emby] Non-blocking corner bubble for background sync — unlike
+    // layoutLoadingOverlay this is never clickable/focusable and never
+    // covers the screen, so the wheel/UI stays fully usable during sync.
+    public LinearLayout syncBubbleContainer;
+    public ProgressBar syncBubbleProgress;
+    public TextView syncBubbleText;
     public ImageView ivMenuPreview, ivAlbumArt, ivPlayerBgBlur, ivPauseOverlay;
     // 🚀 [신규 엔진] 메인 메뉴 순서 변경(Reorder)을 위한 전역 변수들
     public boolean isMenuReorderMode = false;
@@ -531,8 +539,10 @@ public class MainActivity extends Activity {
     private TextView tvKeyPprev, tvKeyPrev, tvKeyCurrent, tvKeyNext, tvKeyNnext;
     private long lastBtToggleTime = 0;
 
-    public int currentKeyboardMode = 0; // 0: 와이파이, 1: 팟캐스트 검색, 2: Last.fm ID, 3: Last.fm PW
+    public int currentKeyboardMode = 0; // 0: 와이파이, 1: 팟캐스트 검색, 2: Last.fm ID, 3: Last.fm PW, 4: Emby Host, 5: Emby User, 6: Emby PW
     public String lastFmTempUsername = "";
+    public String embyTempHost = "";
+    public String embyTempUsername = "";
     
     public void startLastFmLogin() {
         com.themoon.y1.managers.LastFmManager.getInstance(this).startWebAuth(this);
@@ -544,7 +554,7 @@ public class MainActivity extends Activity {
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
             "V", "W", "X", "Y", "Z",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-            "!", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", ".", "?",
+            "!", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", ".", ":", "?",
             "[SPACE]", "[DEL]", "[CONN]"
     };
 
@@ -553,6 +563,10 @@ public class MainActivity extends Activity {
 
     private boolean wasWifiOnBeforeSleep = false;
     private int keyboardIndex = 0;
+    // 🚀 [Keyboard scroll acceleration] Time of the last wheel-left/right key
+    // event in STATE_WIFI_KEYBOARD — rapid consecutive notches jump further,
+    // a single slow notch still moves exactly one character.
+    private long lastKeyboardWheelTime = 0;
     private String targetWifiSsid = "";
     private String typedPassword = "";
     private boolean isTargetWifiOpen = false;
@@ -592,8 +606,8 @@ public class MainActivity extends Activity {
     public int currentBatteryStyleIndex = 0;
     public final String[] BATTERY_STYLE_NAMES = { "Icon Only", "Percent Only", "Icon + Percent" };
     public int currentTimeoutIndex = 1;
-    public final int[] TIMEOUT_VALUES = { 15000, 30000, 60000, 300000 };
-    public final String[] TIMEOUT_NAMES = { "15 Sec", "30 Sec", "1 Min", "5 Min" };
+    public final int[] TIMEOUT_VALUES = { 15000, 30000, 60000, 300000, 600000, 900000, 1800000, 3600000, Integer.MAX_VALUE };
+    public final String[] TIMEOUT_NAMES = { "15 Sec", "30 Sec", "1 Min", "5 Min", "10 Min", "15 Min", "30 Min", "1 Hour", "Always On" };
     private TextView tvFocusPreviewClock; // 🚀 [신규 엔진] 라이브 프리뷰 상자 내부에서 째깍거릴 디지털 시계
     private ImageView ivWidgetFocusImage; // 🚀 [추가] 다이내믹 포커스 위젯 변수
 
@@ -1165,6 +1179,8 @@ public class MainActivity extends Activity {
                         startWifiScan();
                     // 🚀 [오프라인 스크로블 즉시 전송] 와이파이가 연결되는 즉시 대기열에 쌓인 곡들을 Last.fm으로 자동 방출!
                     com.themoon.y1.managers.LastFmManager.getInstance(MainActivity.this).processQueue();
+                    // 🚀 [Time Sync] Opportunistically correct clock drift whenever Wi-Fi connects (no-ops if disabled).
+                    com.themoon.y1.managers.TimeSyncManager.getInstance(MainActivity.this).syncIfEnabled();
                 } else {
                     // 🚀 [수정] 노란색(0xFFFFBB00) 제거 -> 테마 기본색 적용!
                     ivStatusWifi.setColorFilter(ThemeManager.getTextColorPrimary());
@@ -1721,6 +1737,41 @@ public class MainActivity extends Activity {
         flp.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT; // 오른쪽 가운데 정렬
         flp.rightMargin = (int) (30 * getResources().getDisplayMetrics().density); // 오른쪽에서 30dp 띄움
         root.addView(tvFastScrollLetter, flp);
+
+        // 🚀 [Emby] Small non-blocking "syncing" bubble, top-right corner.
+        // Not clickable/focusable — sits on top of whatever screen is showing
+        // without stealing wheel focus or blocking interaction underneath.
+        float dEmby = getResources().getDisplayMetrics().density;
+        syncBubbleContainer = new LinearLayout(this);
+        syncBubbleContainer.setOrientation(LinearLayout.HORIZONTAL);
+        syncBubbleContainer.setGravity(Gravity.CENTER_VERTICAL);
+        GradientDrawable syncBubbleBg = new GradientDrawable();
+        syncBubbleBg.setColor(0xCC000000);
+        syncBubbleBg.setCornerRadius(20 * dEmby);
+        syncBubbleContainer.setBackground(syncBubbleBg);
+        syncBubbleContainer.setPadding((int) (10 * dEmby), (int) (6 * dEmby), (int) (12 * dEmby), (int) (6 * dEmby));
+        syncBubbleContainer.setClickable(false);
+        syncBubbleContainer.setFocusable(false);
+        syncBubbleContainer.setVisibility(View.GONE);
+
+        syncBubbleProgress = new ProgressBar(this, null, android.R.attr.progressBarStyleSmall);
+        LinearLayout.LayoutParams sbpLp = new LinearLayout.LayoutParams(
+                (int) (16 * dEmby), (int) (16 * dEmby));
+        sbpLp.rightMargin = (int) (8 * dEmby);
+        syncBubbleContainer.addView(syncBubbleProgress, sbpLp);
+
+        syncBubbleText = new TextView(this);
+        syncBubbleText.setTextColor(0xFFFFFFFF);
+        syncBubbleText.setTextSize(12);
+        syncBubbleText.setText(t("Syncing..."));
+        syncBubbleContainer.addView(syncBubbleText);
+
+        FrameLayout.LayoutParams sbcLp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        sbcLp.gravity = Gravity.TOP | Gravity.RIGHT;
+        sbcLp.topMargin = (int) (12 * dEmby);
+        sbcLp.rightMargin = (int) (12 * dEmby);
+        root.addView(syncBubbleContainer, sbcLp);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // 🚀 [시스템 공식 등록] 화면이 꺼져도 버튼 신호를 받을 수 있도록 수신기를 장착합니다!
@@ -2731,6 +2782,10 @@ public class MainActivity extends Activity {
 
         applyScreenFilter();
         handleDeepLink(getIntent());
+        checkAutoSyncIntent(getIntent());
+        // 🚀 [Time Sync] Covers the case where Wi-Fi was already connected
+        // before this launch (no state-change broadcast fires in that case).
+        com.themoon.y1.managers.TimeSyncManager.getInstance(this).syncIfEnabled();
     }
 
     @Override
@@ -2738,6 +2793,16 @@ public class MainActivity extends Activity {
         super.onNewIntent(intent);
         setIntent(intent);
         handleDeepLink(intent);
+        checkAutoSyncIntent(intent);
+    }
+
+    // 🚀 [Emby] Entry point for the daily auto-sync alarm. Whether the app
+    // was already running (onNewIntent) or cold-started by the alarm's
+    // startActivity call (onCreate), both paths funnel through here.
+    private void checkAutoSyncIntent(Intent intent) {
+        if (intent != null && intent.getBooleanExtra("emby_auto_sync", false)) {
+            com.themoon.y1.managers.EmbyManager.getInstance(this).startAutoSync(this);
+        }
     }
 
     private void handleDeepLink(Intent intent) {
@@ -5207,9 +5272,16 @@ public class MainActivity extends Activity {
     private void openKeyboard() {
         typedPassword = "";
         keyboardIndex = 0;
+        lastKeyboardWheelTime = 0;
         // 🚀 모드에 따라 상단 제목 다르게 표시!
         if (currentKeyboardMode == 1) {
             tvKeyboardSsid.setText("🔍 " + t("Search Podcast"));
+        } else if (currentKeyboardMode == 4) {
+            tvKeyboardSsid.setText(t("Emby Server") + " (host:port)");
+        } else if (currentKeyboardMode == 5) {
+            tvKeyboardSsid.setText(t("Emby Username"));
+        } else if (currentKeyboardMode == 6) {
+            tvKeyboardSsid.setText(t("Emby Password"));
         } else {
             tvKeyboardSsid.setText(t("Target") + ": " + targetWifiSsid);
         }
@@ -5241,10 +5313,70 @@ public class MainActivity extends Activity {
                 tvKeyboardInput.setText(typedPassword.length() == 0 ? t("Last.fm Username...") : typedPassword);
             } else if (currentKeyboardMode == 3) {
                 tvKeyboardInput.setText(typedPassword.length() == 0 ? t("Last.fm Password...") : typedPassword.replaceAll(".", "*"));
+            } else if (currentKeyboardMode == 4) {
+                tvKeyboardInput.setText(typedPassword.length() == 0 ? t("Enter host:port...") : typedPassword);
+            } else if (currentKeyboardMode == 5) {
+                tvKeyboardInput.setText(typedPassword.length() == 0 ? t("Emby Username...") : typedPassword);
+            } else if (currentKeyboardMode == 6) {
+                tvKeyboardInput.setText(typedPassword.length() == 0 ? t("Emby Password...") : typedPassword.replaceAll(".", "*"));
             } else {
                 tvKeyboardInput.setText(typedPassword.length() == 0 ? t("Enter Password...") : typedPassword);
             }
         }
+    }
+
+    /**
+     * Scroll acceleration for STATE_WIFI_KEYBOARD: consecutive wheel notches
+     * arriving quickly jump further; a single slow notch still moves exactly
+     * one character, same as before. Tiers are deliberately conservative —
+     * worth tuning once felt on real hardware.
+     */
+    private int keyboardScrollStep() {
+        long now = System.currentTimeMillis();
+        long delta = now - lastKeyboardWheelTime;
+        lastKeyboardWheelTime = now;
+        if (delta < 60) return 5;
+        if (delta < 120) return 3;
+        if (delta < 200) return 2;
+        return 1;
+    }
+
+    // 🚀 [Song/artist list scroll acceleration] Separate timestamp from the
+    // keyboard's, so the two contexts never interfere with each other even
+    // though they'll never actually be active at the same time.
+    private long lastListWheelTime = 0;
+
+    public int listScrollStep() {
+        long now = System.currentTimeMillis();
+        long delta = now - lastListWheelTime;
+        lastListWheelTime = now;
+        if (delta < 60) return 5;
+        if (delta < 120) return 3;
+        if (delta < 200) return 2;
+        return 1;
+    }
+
+    /**
+     * Jumps listVirtualSongs's selection/focus to targetPos, clamped to
+     * [0, count-1]. Shared by SongListAdapter and CategoryListAdapter so the
+     * jump-and-refocus boilerplate (same pattern already used elsewhere in
+     * this codebase for search-result rows) lives in one place.
+     */
+    public void wheelJumpListTo(final int targetPos) {
+        if (listVirtualSongs == null || listVirtualSongs.getAdapter() == null) return;
+        int count = listVirtualSongs.getAdapter().getCount();
+        if (count == 0) return;
+        final int clamped = Math.max(0, Math.min(targetPos, count - 1));
+        listVirtualSongs.setSelectionFromTop(clamped, 0);
+        listVirtualSongs.post(new Runnable() {
+            @Override
+            public void run() {
+                int visibleIdx = clamped - listVirtualSongs.getFirstVisiblePosition();
+                if (visibleIdx >= 0 && visibleIdx < listVirtualSongs.getChildCount()) {
+                    listVirtualSongs.getChildAt(visibleIdx).requestFocus();
+                }
+            }
+        });
     }
 
     private void handleKeyboardInput() {
@@ -5301,6 +5433,53 @@ public class MainActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(MainActivity.this, t("Login failed: ") + errorMsg, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+            } else if (currentKeyboardMode == 4) {
+                if (typedPassword.trim().isEmpty()) {
+                    Toast.makeText(this, t("Please enter server host."), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                embyTempHost = typedPassword.trim();
+                typedPassword = "";
+                currentKeyboardMode = 5;
+                updateKeyboardUI();
+                return;
+            } else if (currentKeyboardMode == 5) {
+                if (typedPassword.trim().isEmpty()) {
+                    Toast.makeText(this, t("Please enter username."), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                embyTempUsername = typedPassword.trim();
+                typedPassword = "";
+                currentKeyboardMode = 6;
+                updateKeyboardUI();
+                return;
+            } else if (currentKeyboardMode == 6) {
+                if (typedPassword.trim().isEmpty()) {
+                    Toast.makeText(this, t("Please enter password."), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final String embyPass = typedPassword.trim();
+                Toast.makeText(this, t("Connecting..."), Toast.LENGTH_SHORT).show();
+                com.themoon.y1.managers.EmbyManager.getInstance(this).login(embyTempHost, embyTempUsername, embyPass, new com.themoon.y1.managers.EmbyManager.LoginCallback() {
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(MainActivity.this, t("Emby connected!"), Toast.LENGTH_SHORT).show();
+                                currentKeyboardMode = 0;
+                                changeScreen(STATE_SETTINGS);
+                            }
+                        });
+                    }
+                    @Override
+                    public void onError(final String errorMsg) {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(MainActivity.this, t("Connection failed: ") + errorMsg, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -6630,6 +6809,25 @@ public class MainActivity extends Activity {
         btnExecuteUpdate.setVisibility(View.GONE);
         containerSettingsItems.addView(btnExecuteUpdate);
 
+        // 🚀 [Changelog] "What's New" for the latest version — populated once
+        // the metadata fetch below succeeds, hidden until then.
+        final TextView tvChangelogHeader = new TextView(this);
+        tvChangelogHeader.setText(t("What's New"));
+        tvChangelogHeader.setTypeface(ThemeManager.getCustomFont(), Typeface.BOLD);
+        tvChangelogHeader.setTextColor(ThemeManager.getTextColorPrimary());
+        tvChangelogHeader.setTextSize(14);
+        tvChangelogHeader.setPadding(20, 20, 20, 4);
+        tvChangelogHeader.setVisibility(View.GONE);
+        containerSettingsItems.addView(tvChangelogHeader);
+
+        final TextView tvChangelogBody = new TextView(this);
+        tvChangelogBody.setTextColor(ThemeManager.getTextColorSecondary());
+        tvChangelogBody.setTextSize(13);
+        tvChangelogBody.setLineSpacing(4f, 1.15f);
+        tvChangelogBody.setPadding(20, 0, 20, 16);
+        tvChangelogBody.setVisibility(View.GONE);
+        containerSettingsItems.addView(tvChangelogBody);
+
         // 5. Y1 전용 OTA 업데이트 및 Y2 지원 제한 안내문 (다국어 지원)
         TextView tvNotice = new TextView(this);
         tvNotice.setTypeface(ThemeManager.getCustomFont(), Typeface.NORMAL);
@@ -6688,12 +6886,31 @@ public class MainActivity extends Activity {
                     final String serverVersionName = element.getString("versionName");
                     final String apkFileName = element.getString("outputFile");
 
+                    // 🚀 [Changelog] Optional field — older metadata files without it just skip this.
+                    String changelogText = "";
+                    org.json.JSONArray changelogArr = element.optJSONArray("changelog");
+                    if (changelogArr != null) {
+                        StringBuilder clBuilder = new StringBuilder();
+                        for (int i = 0; i < changelogArr.length(); i++) {
+                            if (i > 0) clBuilder.append("\n");
+                            clBuilder.append("• ").append(changelogArr.optString(i, ""));
+                        }
+                        changelogText = clBuilder.toString();
+                    }
+                    final String finalChangelogText = changelogText;
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             // 서버 버전 텍스트를 업데이트 (예: Checking... -> v1.2)
                             TextView tvServer = (TextView) rowServer.getChildAt(1);
                             tvServer.setText("v" + serverVersionName);
+
+                            if (!finalChangelogText.isEmpty()) {
+                                tvChangelogHeader.setVisibility(View.VISIBLE);
+                                tvChangelogBody.setVisibility(View.VISIBLE);
+                                tvChangelogBody.setText(finalChangelogText);
+                            }
 
                             // 🚀 [비교] 업데이트가 필요할 때
                             if (serverVersionCode > myVersionCode) {
@@ -11112,6 +11329,113 @@ public class MainActivity extends Activity {
                 tvLyrics.setTextColor(isPlayerBackgroundLight() ? 0xFF111111 : 0xFFFFFFFF);
                 tvLyrics.setText(plainLyrics);
             }
+            return;
+        }
+
+        // 🚀 [Lyrics] Nothing found locally (.lrc, embedded tags) — try an
+        // online lookup (LRCLIB, no API key required) if on Wi-Fi.
+        fetchOnlineLyrics(audioFile);
+    }
+
+    // 🚀 [Lyrics] Tracks which file the in-flight online lookup is for, so a
+    // late response can't overwrite lyrics after the user has skipped tracks.
+    private File lyricsFetchTargetFile = null;
+
+    private boolean isWifiConnectedForLyrics() {
+        try {
+            WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+            if (wm == null || !wm.isWifiEnabled()) return false;
+            android.net.wifi.WifiInfo info = wm.getConnectionInfo();
+            return info != null && info.getNetworkId() != -1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void fetchOnlineLyrics(final File audioFile) {
+        if (!isWifiConnectedForLyrics()) return;
+
+        final String title = tvPlayerTitle != null ? tvPlayerTitle.getText().toString().trim() : "";
+        final String artist = tvPlayerArtist != null ? tvPlayerArtist.getText().toString().trim() : "";
+        if (title.isEmpty() || artist.isEmpty()) return;
+
+        lyricsFetchTargetFile = audioFile;
+        final int durationSec = com.themoon.y1.managers.AudioPlayerManager.getInstance().getDuration() / 1000;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    StringBuilder urlBuilder = new StringBuilder("https://lrclib.net/api/get?track_name=")
+                            .append(java.net.URLEncoder.encode(title, "UTF-8"))
+                            .append("&artist_name=")
+                            .append(java.net.URLEncoder.encode(artist, "UTF-8"));
+                    if (durationSec > 0) {
+                        urlBuilder.append("&duration=").append(durationSec);
+                    }
+
+                    java.net.URL url = new java.net.URL(urlBuilder.toString());
+                    java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(6000);
+                    conn.setReadTimeout(6000);
+
+                    if (conn.getResponseCode() != 200) return; // 404 = no match, nothing to show
+
+                    java.io.BufferedReader br = new java.io.BufferedReader(
+                            new java.io.InputStreamReader(conn.getInputStream(), "UTF-8"));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line);
+                    br.close();
+
+                    org.json.JSONObject json = new org.json.JSONObject(sb.toString());
+                    final String synced = json.optString("syncedLyrics", null);
+                    final String plain = json.optString("plainLyrics", null);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Bail if the user has since skipped to a different track.
+                            if (lyricsFetchTargetFile == null || !lyricsFetchTargetFile.equals(audioFile)) return;
+                            applyOnlineLyrics(synced, plain);
+                        }
+                    });
+                } catch (Exception e) {
+                }
+            }
+        }).start();
+    }
+
+    private void applyOnlineLyrics(String synced, String plain) {
+        if (synced != null && !synced.trim().isEmpty()) {
+            // Reuse the exact same [mm:ss.xx] parser already used for local .lrc files.
+            java.util.regex.Pattern pattern = java.util.regex.Pattern
+                    .compile("\\[(\\d{2}):(\\d{2})\\.(\\d{2,3})\\](.*)");
+            String[] lines = synced.split("\\r?\\n");
+            for (String line : lines) {
+                java.util.regex.Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    int min = Integer.parseInt(matcher.group(1));
+                    int sec = Integer.parseInt(matcher.group(2));
+                    int ms = Integer.parseInt(matcher.group(3));
+                    if (matcher.group(3).length() == 2) ms *= 10;
+                    int totalMs = (min * 60 * 1000) + (sec * 1000) + ms;
+                    String text = matcher.group(4).trim();
+                    if (!text.isEmpty()) currentLyrics.put(totalMs, text);
+                }
+            }
+            if (!currentLyrics.isEmpty()) {
+                lyricTimestamps = new ArrayList<>(currentLyrics.keySet());
+                plainLyrics = null;
+                return;
+            }
+        }
+        if (plain != null && !plain.trim().isEmpty()) {
+            plainLyrics = plain;
+            if (tvLyrics != null) {
+                tvLyrics.setTextColor(isPlayerBackgroundLight() ? 0xFF111111 : 0xFFFFFFFF);
+                tvLyrics.setText(plainLyrics);
+            }
         }
     }
 
@@ -11607,13 +11931,15 @@ public class MainActivity extends Activity {
 
         if (currentScreenState == STATE_WIFI_KEYBOARD) {
             if (keyCode == 21) {
-                keyboardIndex = (keyboardIndex - 1 + KEYBOARD_CHARS.length) % KEYBOARD_CHARS.length;
+                int step = keyboardScrollStep();
+                keyboardIndex = (keyboardIndex - step + KEYBOARD_CHARS.length) % KEYBOARD_CHARS.length;
                 updateKeyboardUI();
                 clickFeedback();
                 return true;
             }
             if (keyCode == 22) {
-                keyboardIndex = (keyboardIndex + 1) % KEYBOARD_CHARS.length;
+                int step = keyboardScrollStep();
+                keyboardIndex = (keyboardIndex + step) % KEYBOARD_CHARS.length;
                 updateKeyboardUI();
                 clickFeedback();
                 return true;
@@ -12972,6 +13298,56 @@ public class MainActivity extends Activity {
     public void buildDateTimeUI() {
         currentSettingsDepth = 2; // 🚀 카테고리(0) → 서브 메뉴(1) → 이 화면(2)
         containerSettingsItems.removeAllViews();
+
+        // =========================================================
+        // 🚀 [Time Sync] Automatic time + timezone via network lookup —
+        // this hardware has no cell radio/GPS, so there's no NITZ to rely
+        // on the way a phone would have.
+        // =========================================================
+        createCategoryHeader("Automatic");
+
+        final com.themoon.y1.managers.TimeSyncManager tsm = com.themoon.y1.managers.TimeSyncManager.getInstance(this);
+        final LinearLayout btnAutoTime = createSettingRow(t("Auto Time & Timezone"),
+                tsm.isAutoTimeEnabled() ? t("ON") : t("OFF"));
+        btnAutoTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                boolean newState = !tsm.isAutoTimeEnabled();
+                tsm.setAutoTimeEnabled(newState);
+                ((TextView) btnAutoTime.getChildAt(1)).setText(newState ? t("ON") : t("OFF"));
+                if (newState) {
+                    tsm.syncIfEnabled();
+                    Toast.makeText(MainActivity.this, t("Syncing..."), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        containerSettingsItems.addView(btnAutoTime);
+
+        final LinearLayout btnSyncNow = createSettingRow(t("Sync Now"), tsm.getLastSyncStatus());
+        btnSyncNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                Toast.makeText(MainActivity.this, t("Syncing..."), Toast.LENGTH_SHORT).show();
+                tsm.syncNow(new com.themoon.y1.managers.TimeSyncManager.SyncCallback() {
+                    @Override
+                    public void onDone(final String resultMessage) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) btnSyncNow.getChildAt(1)).setText(resultMessage);
+                                Toast.makeText(MainActivity.this, resultMessage, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        containerSettingsItems.addView(btnSyncNow);
+
+        createCategoryHeader("Manual");
+
         // 🚀 [수정] 12시간/24시간 텍스트도 번역기를 거치도록 t()를 씌워줍니다!
         String formatRightText = is24HourFormat ? t("24 Hour") : t("12 Hour");
         final LinearLayout rowFormat = createSettingRow("Time Format", formatRightText);

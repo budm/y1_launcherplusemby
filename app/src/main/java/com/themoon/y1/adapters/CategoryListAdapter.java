@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.LruCache;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -291,6 +292,28 @@ public class CategoryListAdapter extends BaseAdapter {
                 }
             });
 
+            // 🚀 [Scroll acceleration] Same tiered-velocity jump as the
+            // on-device keyboard and the song list.
+            rowView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                    if (keyCode == 19 || keyCode == 21) {
+                        int step = MainActivity.instance.listScrollStep();
+                        MainActivity.instance.wheelJumpListTo(position - step);
+                        MainActivity.instance.clickFeedback();
+                        return true;
+                    }
+                    if (keyCode == 20 || keyCode == 22) {
+                        int step = MainActivity.instance.listScrollStep();
+                        MainActivity.instance.wheelJumpListTo(position + step);
+                        MainActivity.instance.clickFeedback();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
             return rowView;
         } else {
             final Button btn;
@@ -330,6 +353,28 @@ public class CategoryListAdapter extends BaseAdapter {
                     MainActivity.instance.virtualQueryValue = name;
                     MainActivity.instance.currentBrowserMode = MainActivity.BROWSER_VIRTUAL_SONGS;
                     MainActivity.instance.buildVirtualSongs();
+                }
+            });
+
+            // 🚀 [Scroll acceleration] Same tiered-velocity jump as the
+            // on-device keyboard and the song list.
+            btn.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                    if (keyCode == 19 || keyCode == 21) {
+                        int step = MainActivity.instance.listScrollStep();
+                        MainActivity.instance.wheelJumpListTo(position - step);
+                        MainActivity.instance.clickFeedback();
+                        return true;
+                    }
+                    if (keyCode == 20 || keyCode == 22) {
+                        int step = MainActivity.instance.listScrollStep();
+                        MainActivity.instance.wheelJumpListTo(position + step);
+                        MainActivity.instance.clickFeedback();
+                        return true;
+                    }
+                    return false;
                 }
             });
 
