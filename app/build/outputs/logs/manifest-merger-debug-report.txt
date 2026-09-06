@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-84:12
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:2:1-85:12
 MERGED from [extension-opus-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/d7f52c7539e68f1655664ce0aeadd987/transformed/extension-opus-release/AndroidManifest.xml:17:1-24:12
 MERGED from [extension-flac-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/5fe9450d6dfd84e91d4853e25fc63cd9/transformed/extension-flac-release/AndroidManifest.xml:17:1-24:12
 MERGED from [extension-ffmpeg-release.aar] /Users/marvindawson/.gradle/caches/transforms-4/fae69768bb125dd333750187050d51e9/transformed/extension-ffmpeg-release/AndroidManifest.xml:17:1-24:12
@@ -35,113 +35,119 @@ ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/Androi
 		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:65-100
 	android:name
 		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:4:22-64
+uses-permission#android.permission.REBOOT
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:5-101
+	tools:ignore
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:63-98
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:22-62
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:5-76
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:5-76
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:5:22-73
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:22-73
 uses-permission#android.permission.BLUETOOTH_SCAN
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:5-73
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:5-73
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:6:22-70
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:22-70
 uses-permission#android.permission.BLUETOOTH
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:5-68
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:5-68
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:7:22-65
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:5-74
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:5-74
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:8:22-71
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:22-71
 uses-permission#android.permission.BLUETOOTH_PRIVILEGED
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:5-79
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:5-79
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:9:22-76
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:22-76
 uses-permission#android.permission.SET_TIME
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:5-67
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:5-67
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:10:22-64
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:22-64
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:5-80
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:5-80
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:11:22-77
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:5-81
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:13:5-81
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:12:22-78
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:13:22-78
 uses-permission#android.permission.CHANGE_WIFI_STATE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:15:5-76
-	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:15:22-73
-uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:16:5-76
 	android:name
 		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:16:22-73
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:5-76
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:22-73
 uses-permission#android.permission.WRITE_SETTINGS
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:5-109
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:5-109
 	tools:ignore
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:71-106
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:71-106
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:17:22-70
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:22-70
 uses-permission#android.permission.WRITE_SECURE_SETTINGS
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:5-116
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:5-116
 	tools:ignore
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:78-113
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:78-113
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:18:22-77
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:22-77
 uses-permission#android.permission.VIBRATE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:5-66
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:5-66
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:19:22-63
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:22-63
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:5-81
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:5-81
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:20:22-78
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:5-79
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:5-79
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:21:22-76
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:22-76
 uses-permission#android.permission.INTERNET
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:5-67
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:5-67
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:22:22-64
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:5-79
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/de52bd685e5619be322f683c817d2bd7/transformed/exoplayer-core-2.13.3/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-common:2.13.3] /Users/marvindawson/.gradle/caches/transforms-4/3b4cccb31096644cb73f72ef2c8cc68f/transformed/exoplayer-common-2.13.3/AndroidManifest.xml:24:5-79
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:23:22-76
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:22-76
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:5-81
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:5-81
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:24:22-78
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:22-78
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:5-68
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:5-68
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:25:22-65
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:22-65
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:5-80
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:5-80
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:26:22-77
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:22-77
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:5-71
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:28:5-71
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:27:22-68
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:28:22-68
 uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:29:5-83
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:30:5-83
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:29:22-80
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:30:22-80
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:31:5-77
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:32:5-77
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:31:22-74
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:32:22-74
 uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:33:5-92
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:5-92
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:33:22-89
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:22-89
 application
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:5-82:19
-INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:34:5-82:19
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:35:5-83:19
+INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:35:5-83:19
 MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:11:5-20
 MERGED from [org.conscrypt:conscrypt-android:2.5.2] /Users/marvindawson/.gradle/caches/transforms-4/f5fa45d6318849e154b99a61ac75fa83/transformed/conscrypt-android-2.5.2/AndroidManifest.xml:11:5-20
 MERGED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:24:5-89
@@ -153,119 +159,119 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/marv
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.0] /Users/marvindawson/.gradle/caches/transforms-4/82cb9b535251044f48fbf268df323da0/transformed/core-1.3.0/AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:42:9-35
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:43:9-35
 	android:label
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:40:9-41
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:41:9-41
 	android:fullBackupContent
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:38:9-54
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:39:9-54
 	android:roundIcon
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:41:9-54
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:42:9-54
 	tools:targetApi
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:44:9-29
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:45:9-29
 	android:icon
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:39:9-43
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:40:9-43
 	android:allowBackup
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:36:9-35
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:37:9-35
 	android:theme
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:43:9-62
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:44:9-62
 	android:dataExtractionRules
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:37:9-65
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:38:9-65
 	tools:replace
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:45:9-74
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:46:9-74
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:35:9-61
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:36:9-61
 meta-data#com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:46:9-48:66
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:47:9-49:66
 	android:value
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:48:13-63
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:49:13-63
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:47:13-93
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:48:13-93
 activity#com.themoon.y1.MainActivity
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:49:9-66:20
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:50:9-67:20
 	android:launchMode
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:51:13-44
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:52:13-44
 	android:exported
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:52:13-36
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:53:13-36
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:50:13-41
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:51:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.DEFAULT+category:name:android.intent.category.HOME+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:53:13-59:29
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:13-60:29
 action#android.intent.action.MAIN
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:17-69
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:17-69
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:54:25-66
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:17-77
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:56:17-77
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:55:27-74
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:56:27-74
 category#android.intent.category.HOME
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:57:17-73
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:17-73
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:57:27-70
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:27-70
 category#android.intent.category.DEFAULT
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:17-76
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:59:17-76
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:58:27-73
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:59:27-73
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:lastfm-callback+data:scheme:y1
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:60:13-65:29
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:13-66:29
 action#android.intent.action.VIEW
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:17-69
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:62:17-69
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:61:25-66
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:62:25-66
 category#android.intent.category.BROWSABLE
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:63:17-78
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:17-78
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:63:27-75
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:27-75
 data
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:17-76
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:65:17-76
 	android:host
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:43-73
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:65:43-73
 	android:scheme
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:64:23-42
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:65:23-42
 activity#com.themoon.y1.VideoPlayerActivity
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:9-95
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:9-95
 	android:screenOrientation
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:55-92
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:55-92
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:67:19-54
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:19-54
 activity#com.themoon.y1.GameActivity
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:9-88
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:9-88
 	android:screenOrientation
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:48-85
-	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:68:19-47
-receiver#com.themoon.y1.BootReceiver
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:9-73:20
-	android:exported
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:48-71
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:48-85
 	android:name
 		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:69:19-47
+receiver#com.themoon.y1.BootReceiver
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:70:9-74:20
+	android:exported
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:70:48-71
+	android:name
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:70:19-47
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:70:13-72:29
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:13-73:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:17-79
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:72:17-79
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:71:25-76
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:72:25-76
 receiver#com.themoon.y1.EmbyAutoSyncReceiver
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:9-83
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:9-83
 	android:exported
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:56-80
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:56-80
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:76:19-55
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:19-55
 receiver#com.themoon.y1.MainActivity$MediaBtnReceiver
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:9-81:20
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:9-82:20
 	android:exported
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:65-88
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:65-88
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:77:19-64
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:19-64
 intent-filter#action:name:android.intent.action.MEDIA_BUTTON
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:13-80:29
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:13-81:29
 	android:priority
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:78:28-50
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:28-50
 action#android.intent.action.MEDIA_BUTTON
-ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:17-77
+ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:80:17-77
 	android:name
-		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:79:25-74
+		ADDED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml:80:25-74
 uses-sdk
 INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/marvindawson/Downloads/y1_launcherplusemby/app/src/main/AndroidManifest.xml

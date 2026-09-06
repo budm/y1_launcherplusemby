@@ -5,6 +5,48 @@ JJ Launcher) are documented here. Versions are keyed by `versionCode` /
 `versionName` from `app/build.gradle`, matching what the in-device System
 Update page compares against.
 
+## [900062] - 0.11.6 hotfix 4 (custom: Emby Sync r2)
+
+### Fixed
+- Screen timeout preference wasn't actually persisting across reboots — the
+  saved and loaded settings keys didn't match. Also now reapplies the
+  OS-level timeout explicitly at boot as a safety net.
+- Sync could freeze the entire device partway through a large library:
+  - Added a wake lock for the duration of a sync, since long syncs could
+    outlast the screen timeout and let the CPU suspend mid-transfer.
+  - Fixed a connection leak on failed downloads (unclosed response body).
+  - Sync progress is now saved periodically instead of only once at the
+    end, so an interruption doesn't lose all prior progress.
+  - Throttled UI progress updates during long runs of skipped (already
+    synced) files, which could otherwise flood the main thread.
+- Downloaded files could be silently truncated if the connection closed
+  early without an error — added a content-length check so a truncated
+  file is now correctly treated as a failed download instead of being
+  recorded as successful. (Root cause of M4A/ALAC tracks failing to play
+  with an extractor error after sync.)
+- System Update page's metadata and APK download both failed with
+  "Network error" — replaced fragile legacy HTTPS handling with the same
+  OkHttp approach already proven elsewhere in this app.
+- Date & Time screen: opening it left nothing focused (no highlight,
+  clicks did nothing) because a hardcoded "focus child 0" pointed at a
+  header instead of a row once the Automatic section was added. Same bug
+  fixed in the new About Device screen before it shipped.
+
+### Added
+- Reboot option next to Power Off, with the same confirmation-dialog
+  pattern.
+- About Device screen: library counts (songs, artists, podcasts,
+  audiobooks, videos), storage used/available, a couple of fun facts
+  (estimated back-to-back listening time, "finish date if started today"),
+  and credits (original launcher: ismileblue; this fork: Budm).
+
+### Changed
+- Sync progress indicator moved from top-right to bottom-right corner.
+- OTA APK download now reads a full URL from `output-metadata.json`'s
+  `outputFile` field instead of joining a filename onto `SERVER_BASE_URL` —
+  needed since the APK is now hosted at a different path than the
+  metadata JSON itself.
+
 ## [900061] - 0.11.6 hotfix 4 (custom: Emby Sync)
 
 ### Added

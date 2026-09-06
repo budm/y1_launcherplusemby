@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.themoon.y1"
-    android:versionCode="900061"
-    android:versionName="0.11.6 hotfix 4 (custom: Emby Sync)" >
+    android:versionCode="900062"
+    android:versionName="0.11.6 hotfix 4 (custom: Emby Sync r2)" >
 
     <uses-sdk
         android:minSdkVersion="17"
         android:targetSdkVersion="35" />
 
     <uses-permission android:name="android.permission.SHUTDOWN" />
+    <uses-permission android:name="android.permission.REBOOT" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />

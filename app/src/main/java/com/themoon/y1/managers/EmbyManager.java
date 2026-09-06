@@ -41,6 +41,7 @@ public class EmbyManager {
 
     private String host, userId, accessToken;
     private volatile boolean syncing = false;
+    private android.os.PowerManager.WakeLock wakeLock;
 
     private EmbyManager(Context context) {
         this.context = context.getApplicationContext();
@@ -178,6 +179,21 @@ public class EmbyManager {
         }
         syncing = true;
 
+        // 🚀 [Bugfix] A multi-thousand-file sync can run well past whatever
+        // screen timeout is set (especially now that short timeouts like
+        // 15/30 Sec exist). Without a wake lock, the CPU can suspend
+        // mid-sync — and since this app IS the device's home screen, that
+        // can present as the whole device freezing rather than just this
+        // app pausing. Released unconditionally in finishSync().
+        try {
+            android.os.PowerManager pm = (android.os.PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (pm != null) {
+                wakeLock = pm.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "Y1EmbySync:sync");
+                wakeLock.acquire(30 * 60 * 1000L); // safety timeout — never hold indefinitely if release() is somehow missed
+            }
+        } catch (Exception e) {
+        }
+
         main.runOnUiThread(new Runnable() {
             public void run() {
                 main.syncBubbleContainer.setVisibility(View.VISIBLE);
@@ -198,6 +214,7 @@ public class EmbyManager {
         int downloaded = 0, skipped = 0, failed = 0;
         String resultMsg;
         File musicDir = StoragePaths.getMusicDir();
+        long lastProgressPostTime = 0;
 
         try {
             SyncManifest manifest = new SyncManifest(musicDir);
@@ -223,10 +240,23 @@ public class EmbyManager {
 
                 if (manifest.hasItem(itemId, dateCreated)) {
                     skipped++;
-                    publishProgress(main, i + 1, total, main.t("Skipped") + ": " + name);
+                    // 🚀 [Bugfix] Skips need no I/O and can churn through
+                    // hundreds of items in a burst — throttle these UI posts
+                    // (unlike real downloads, which are naturally paced by
+                    // network I/O) so a long run of skips can't flood the
+                    // main thread's message queue. Since this app IS the
+                    // device's home screen, a backed-up main thread here
+                    // looks like the whole device freezing, not just a
+                    // laggy app.
+                    long now = System.currentTimeMillis();
+                    if (now - lastProgressPostTime > 150) {
+                        lastProgressPostTime = now;
+                        publishProgress(main, i + 1, total, main.t("Skipped") + ": " + name);
+                    }
                     continue;
                 }
 
+                lastProgressPostTime = System.currentTimeMillis();
                 publishProgress(main, i + 1, total, name);
 
                 String artist = sanitize(item.optString("AlbumArtist", "Unknown Artist"));
@@ -248,6 +278,12 @@ public class EmbyManager {
                 try {
                     Response dlResponse = httpClient.newCall(dlRequest).execute();
                     if (!dlResponse.isSuccessful() || dlResponse.body() == null) {
+                        // 🚀 [Bugfix] Must close the response even on failure —
+                        // an unclosed body leaks the underlying connection.
+                        // Over ~1000 sequential requests this can exhaust
+                        // OkHttp's connection pool, after which further
+                        // requests can hang indefinitely waiting for one.
+                        dlResponse.close();
                         failed++;
                         continue;
                     }
@@ -255,9 +291,28 @@ public class EmbyManager {
                     FileOutputStream out = new FileOutputStream(outFile);
                     byte[] buf = new byte[8192];
                     int n;
-                    while ((n = in.read(buf)) != -1) out.write(buf, 0, n);
+                    long bytesWritten = 0;
+                    while ((n = in.read(buf)) != -1) {
+                        out.write(buf, 0, n);
+                        bytesWritten += n;
+                    }
                     out.close();
                     in.close();
+
+                    // 🚀 [Bugfix] A connection that closes early but "cleanly"
+                    // (no exception — read() just returns -1 sooner than
+                    // expected) previously got silently accepted as a
+                    // complete download. A truncated MP4/M4A is missing its
+                    // structural data (often stored at the end of the file),
+                    // which is exactly what "none of the extractors could
+                    // read the stream" looks like on playback — while the
+                    // truncation itself throws no error here to catch.
+                    long expectedLength = dlResponse.body().contentLength();
+                    if (expectedLength > 0 && bytesWritten != expectedLength) {
+                        if (outFile.exists()) outFile.delete();
+                        failed++;
+                        continue;
+                    }
 
                     manifest.recordItem(itemId, relativePath, dateCreated);
                     downloaded++;
@@ -265,6 +320,17 @@ public class EmbyManager {
                     // network drop mid-write: don't leave a partial file masquerading as real
                     if (outFile.exists()) outFile.delete();
                     failed++;
+                }
+
+                // 🚀 [Bugfix] Save periodically, not just once at the very
+                // end — a freeze/crash partway through a multi-thousand-file
+                // sync previously meant losing every download's progress and
+                // re-downloading everything on the next attempt.
+                if ((downloaded + failed) % 25 == 0) {
+                    try {
+                        manifest.save();
+                    } catch (Exception ignored) {
+                    }
                 }
             }
 
@@ -320,6 +386,12 @@ public class EmbyManager {
 
     private void finishSync(final MainActivity main, final String message) {
         syncing = false;
+        try {
+            if (wakeLock != null && wakeLock.isHeld()) {
+                wakeLock.release();
+            }
+        } catch (Exception e) {
+        }
         main.runOnUiThread(new Runnable() {
             public void run() {
                 main.syncBubbleContainer.setVisibility(View.GONE);

@@ -882,11 +882,11 @@ public class SettingsMenuManager {
         });
         main.containerSettingsItems.addView(btnLangMenu);
 
-        String myVersionName = "1.0";
+        int myVersionCode = 1;
         try {
-            myVersionName = main.getPackageManager().getPackageInfo(main.getPackageName(), 0).versionName;
+            myVersionCode = main.getPackageManager().getPackageInfo(main.getPackageName(), 0).versionCode;
         } catch (Exception e) {}
-        LinearLayout btnUpdateCheck = createSettingRow(t("System Update"), "v" + myVersionName);
+        LinearLayout btnUpdateCheck = createSettingRow(t("System Update"), "Build: " + myVersionCode);
         btnUpdateCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -926,6 +926,34 @@ public class SettingsMenuManager {
             }
         });
         main.containerSettingsItems.addView(btnPowerOff);
+
+        LinearLayout btnReboot = createSettingRow(t("Reboot"), "〉 ");
+        btnReboot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                new AlertDialog.Builder(main, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+                        .setTitle(t("Reboot"))
+                        .setMessage(t("Are you sure you want to reboot the device?"))
+                        .setPositiveButton(t("Reboot"), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", "reboot"});
+                                    proc.waitFor();
+                                } catch (Exception e) {
+                                    try {
+                                        ((android.os.PowerManager) main.getSystemService(Context.POWER_SERVICE)).reboot(null);
+                                    } catch (Exception ex) {
+                                        Toast.makeText(main, t("System security prevents rebooting directly from the app."), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                        })
+                        .setNegativeButton(t("Cancel"), null)
+                        .show();
+            }
+        });
+        main.containerSettingsItems.addView(btnReboot);
         LinearLayout btnBatteryTime = createSettingRow(t("Battery Time"), "〉 ");
         btnBatteryTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -935,6 +963,16 @@ public class SettingsMenuManager {
             }
         });
         main.containerSettingsItems.addView(btnBatteryTime);
+
+        LinearLayout btnAboutDevice = createSettingRow(t("About Device"), "〉 ");
+        btnAboutDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFeedback();
+                main.buildAboutDeviceUI();
+            }
+        });
+        main.containerSettingsItems.addView(btnAboutDevice);
 
         focusFirstItem();
     }

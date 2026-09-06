@@ -32,15 +32,14 @@ original JJ Launcher. See [CHANGELOG.md](CHANGELOG.md) for the full
 version history — the same list shown on-device under
 **Settings → System → System Update**.
 
-**Latest ([900061] - 0.11.6 hotfix 4, custom: Emby Sync):**
-- Emby server sync with daily auto-sync (Wi-Fi + battery aware, with pruning)
-- On-device Emby login via the wheel keyboard
-- Non-blocking sync progress indicator
-- Scroll acceleration for the keyboard and song/artist lists
-- Extended screen timeout options, up to Always On
-- Automatic time & timezone sync
-- Online lyrics lookup (LRCLIB) when no local lyrics are found
-- Self-hosted OTA updates with an in-device changelog viewer
+**Latest ([900062] - 0.11.6 hotfix 4, custom: Emby Sync r2):**
+- Fixed screen timeout persistence, sync freezing on large libraries, and
+  truncated-download playback errors (M4A/ALAC)
+- Fixed System Update network errors and two focus/highlight bugs
+- Added Reboot option and an About Device screen (library stats, storage,
+  fun facts, credits)
+- Sync progress indicator moved to bottom-right; OTA APK now hosted at its
+  own URL separate from the metadata JSON
 
 ---
 

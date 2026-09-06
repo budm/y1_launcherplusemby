@@ -1768,8 +1768,8 @@ public class MainActivity extends Activity {
 
         FrameLayout.LayoutParams sbcLp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        sbcLp.gravity = Gravity.TOP | Gravity.RIGHT;
-        sbcLp.topMargin = (int) (12 * dEmby);
+        sbcLp.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        sbcLp.bottomMargin = (int) (12 * dEmby);
         sbcLp.rightMargin = (int) (12 * dEmby);
         root.addView(syncBubbleContainer, sbcLp);
 
@@ -1896,8 +1896,18 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
         } // 🚀 [추가]
         try {
-            currentTimeoutIndex = prefs.getInt("timeout_idx", 1);
+            currentTimeoutIndex = prefs.getInt("screen_timeout_index", 1);
+            if (currentTimeoutIndex < 0 || currentTimeoutIndex >= TIMEOUT_VALUES.length) currentTimeoutIndex = 1;
             currentBatteryStyleIndex = prefs.getInt("battery_indicator_style", 0);
+        } catch (Exception e) {
+        }
+        // 🚀 [Bugfix] The saved index alone doesn't guarantee the OS-level
+        // setting still matches — reapply explicitly on every boot so a
+        // reboot can never leave the actual timeout out of sync with what
+        // Settings displays.
+        try {
+            android.provider.Settings.System.putInt(getContentResolver(),
+                    android.provider.Settings.System.SCREEN_OFF_TIMEOUT, TIMEOUT_VALUES[currentTimeoutIndex]);
         } catch (Exception e) {
         }
 
@@ -6795,7 +6805,7 @@ public class MainActivity extends Activity {
         final int myVersionCode = tempCode;
 
         // 2. 현재 버전 표시 줄
-        LinearLayout rowCurrent = createSettingRow("Current Version", "v" + myVersionName);
+        LinearLayout rowCurrent = createSettingRow("Current Version", "Build: " + myVersionCode);
         containerSettingsItems.addView(rowCurrent);
 
         // 3. 서버 버전 표시 줄 (처음엔 Checking... 으로 표시)
@@ -6843,42 +6853,15 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    java.net.URL url = new java.net.URL(METADATA_URL);
-                    java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
-
-                    // 🚀 [필수 1] 깃허브 보안(TLS 1.2) 뚫기: 만들어둔 비밀 무기 장착!
-                    if (conn instanceof javax.net.ssl.HttpsURLConnection) {
-                        try {
-                            ((javax.net.ssl.HttpsURLConnection) conn).setSSLSocketFactory(new TLSSocketFactory());
-                        } catch (Exception e) {
-                        }
+                    okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
+                    okhttp3.Request request = new okhttp3.Request.Builder().url(METADATA_URL).build();
+                    okhttp3.Response response = client.newCall(request).execute();
+                    if (!response.isSuccessful() || response.body() == null) {
+                        throw new java.io.IOException("HTTP " + response.code());
                     }
+                    String responseBody = response.body().string();
 
-                    conn.setInstanceFollowRedirects(false); // 수동 추적을 위해 기본 기능 끄기
-                    conn.setConnectTimeout(5000);
-
-                    // 🚀 [필수 2] 깃허브 리다이렉트(주소 우회) 끝까지 쫓아가기!
-                    int status = conn.getResponseCode();
-                    if (status == 301 || status == 302 || status == 303) {
-                        String newUrl = conn.getHeaderField("Location");
-                        conn = (java.net.HttpURLConnection) new java.net.URL(newUrl).openConnection();
-                        if (conn instanceof javax.net.ssl.HttpsURLConnection) {
-                            try {
-                                ((javax.net.ssl.HttpsURLConnection) conn).setSSLSocketFactory(new TLSSocketFactory());
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-
-                    java.io.BufferedReader in = new java.io.BufferedReader(
-                            new java.io.InputStreamReader(conn.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = in.readLine()) != null)
-                        sb.append(line);
-                    in.close();
-
-                    org.json.JSONObject root = new org.json.JSONObject(sb.toString());
+                    org.json.JSONObject root = new org.json.JSONObject(responseBody);
                     org.json.JSONArray elements = root.getJSONArray("elements");
                     org.json.JSONObject element = elements.getJSONObject(0);
 
@@ -6904,7 +6887,7 @@ public class MainActivity extends Activity {
                         public void run() {
                             // 서버 버전 텍스트를 업데이트 (예: Checking... -> v1.2)
                             TextView tvServer = (TextView) rowServer.getChildAt(1);
-                            tvServer.setText("v" + serverVersionName);
+                            tvServer.setText("Build: " + serverVersionCode);
 
                             if (!finalChangelogText.isEmpty()) {
                                 tvChangelogHeader.setVisibility(View.VISIBLE);
@@ -6923,7 +6906,10 @@ public class MainActivity extends Activity {
                                     @Override
                                     public void onClick(View v) {
                                         clickFeedback();
-                                        String downloadUrl = SERVER_BASE_URL + apkFileName;
+                                        // 🚀 outputFile now holds a complete URL (not just a
+                                        // filename joined with SERVER_BASE_URL), since the APK
+                                        // is hosted at a different path than the metadata JSON.
+                                        String downloadUrl = apkFileName;
                                         downloadAndInstallApk(downloadUrl); // 다운로드 엔진 호출
                                     }
                                 });
@@ -7119,54 +7105,25 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    java.net.URL url = new java.net.URL(apkUrl);
-                    java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
-
-                    // 🚀 [필수 1] 깃허브 보안(TLS 1.2) 뚫기
-                    if (conn instanceof javax.net.ssl.HttpsURLConnection) {
-                        try {
-                            ((javax.net.ssl.HttpsURLConnection) conn).setSSLSocketFactory(new TLSSocketFactory());
-                        } catch (Exception e) {
-                        }
+                    okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
+                    okhttp3.Request request = new okhttp3.Request.Builder()
+                            .url(apkUrl)
+                            .header("Accept-Encoding", "identity") // 압축(GZIP) 끄기 — 용량 뻥튀기 방지
+                            .header("Cache-Control", "no-cache")
+                            .build();
+                    okhttp3.Response response = client.newCall(request).execute();
+                    if (!response.isSuccessful() || response.body() == null) {
+                        throw new java.io.IOException("HTTP " + response.code());
                     }
 
-                    conn.setInstanceFollowRedirects(false);
+                    final int fileLength = (int) response.body().contentLength();
 
-                    // 🚀 [여기 추가!!] 안드로이드의 자동 압축(GZIP) 오지랖 끄기! (용량 뻥튀기 원천 차단)
-                    conn.setRequestProperty("Accept-Encoding", "identity");
-                    conn.setUseCaches(false);
-                    conn.setRequestProperty("Cache-Control", "no-cache");
-                    // 🚀 [필수 2] 깃허브 리다이렉트(주소 우회) 쫓아가서 파일 낚아채기!
-                    int status = conn.getResponseCode();
-                    if (status == 301 || status == 302 || status == 303) {
-                        String newUrl = conn.getHeaderField("Location");
-                        conn = (java.net.HttpURLConnection) new java.net.URL(newUrl).openConnection();
-                        if (conn instanceof javax.net.ssl.HttpsURLConnection) {
-                            try {
-                                ((javax.net.ssl.HttpsURLConnection) conn).setSSLSocketFactory(new TLSSocketFactory());
-                            } catch (Exception e) {
-                            }
-                        }
-
-                        // 🚀 [여기 추가!!] 리다이렉트 된 진짜 다운로드 주소에서도 압축 금지 명령 다시 내리기!
-                        conn.setRequestProperty("Accept-Encoding", "identity");
-                    }
-
-                    conn.connect();
-
-                    // 서버로부터 파일의 전체 총 용량을 알아냅니다.
-                    final int fileLength = conn.getContentLength();
-
-                    // ❌ [기존 다운로드 경로 지정 코드를 전부 지워주세요]
-                    // File sdcard = android.os.Environment.getExternalStorageDirectory();
-                    // ...
-
-                    // 🚀 ⭕ [새로운 코드로 덮어쓰기] SD카드의 간섭을 받지 않는 '앱 전용 내부 금고'를 생성합니다!
+                    // 🚀 ⭕ SD카드의 간섭을 받지 않는 '앱 전용 내부 금고'를 생성합니다!
                     File dir = getDir("update", Context.MODE_PRIVATE);
                     final File updateFile = new File(dir, "Y1_Launcher_Update.apk");
 
                     FileOutputStream fos = new FileOutputStream(updateFile);
-                    java.io.InputStream is = conn.getInputStream();
+                    java.io.InputStream is = response.body().byteStream();
 
                     byte[] buffer = new byte[4096]; // 💡 다운로드 속도를 위해 버퍼를 4배 늘렸습니다.
                     int len;
@@ -13489,11 +13446,141 @@ public class MainActivity extends Activity {
         });
         containerSettingsItems.addView(btnApply);
 
-        if (containerSettingsItems.getChildCount() > 0)
-            containerSettingsItems.getChildAt(0).requestFocus();
+        // 🚀 [Bugfix] Was hardcoded to child index 0, which pointed at the
+        // "Time Format" row before the Automatic section was added above it.
+        // Index 0 is now a non-focusable category header, so requestFocus()
+        // silently failed and nothing was ever focused — no highlight, and
+        // center-click had nothing to act on. Find the first focusable row
+        // instead of assuming a fixed position (same defensive pattern
+        // already used for popup dialogs elsewhere in this file).
+        for (int i = 0; i < containerSettingsItems.getChildCount(); i++) {
+            if (containerSettingsItems.getChildAt(i).isFocusable()) {
+                containerSettingsItems.getChildAt(i).requestFocus();
+                break;
+            }
+        }
     }
 
     // 💡 2. 숫자(년/월/일/시/분) 선택용 세로 리스트 화면
+    // =========================================================
+    // 🚀 [About Device] Library stats, storage, and fun facts —
+    // credits: original launcher by ismileblue, this Emby-sync fork by Budm.
+    // =========================================================
+    public void buildAboutDeviceUI() {
+        currentSettingsDepth = 2;
+        containerSettingsItems.removeAllViews();
+        com.themoon.y1.managers.SettingsMenuManager.getInstance(this).updateSettingsTitle(t("About Device"));
+
+        int songCount = customLibrary.size();
+        java.util.HashSet<String> artistSet = new java.util.HashSet<>();
+        for (SongItem s : customLibrary) {
+            if (s.artist != null && !s.artist.trim().isEmpty()) artistSet.add(s.artist.trim());
+        }
+        int artistCount = artistSet.size();
+        int audiobookCount = audiobookLibrary.size();
+        int podcastCount = countMediaFilesRecursive(StoragePaths.getPodcastsDir(), AUDIO_FILE_EXTENSIONS);
+        int videoCount = countMediaFilesRecursive(StoragePaths.getVideosDir(), VIDEO_FILE_EXTENSIONS);
+
+        long totalMB = 0, freeMB = 0, usedMB = 0;
+        try {
+            android.os.StatFs stat = new android.os.StatFs(StoragePaths.getPrimaryRoot().getAbsolutePath());
+            long blockSize = (long) stat.getBlockSize();
+            totalMB = ((long) stat.getBlockCount() * blockSize) / (1024 * 1024);
+            freeMB = ((long) stat.getAvailableBlocks() * blockSize) / (1024 * 1024);
+            usedMB = Math.max(0, totalMB - freeMB);
+        } catch (Exception e) {
+        }
+
+        // 🚀 Fun fact: estimated back-to-back listening time. No per-track
+        // duration is tracked in the library index, so this uses an average
+        // track length (~3.5 min) rather than scanning every file's real
+        // duration — scanning thousands of files just to open this screen
+        // would be slow and is exactly the kind of per-item work we just
+        // fixed elsewhere for being too heavy.
+        final int avgTrackSeconds = 210;
+        long totalSeconds = (long) songCount * avgTrackSeconds;
+        long totalHours = totalSeconds / 3600;
+        double totalDays = totalHours / 24.0;
+        double totalYears = totalDays / 365.0;
+
+        String listenTimeText;
+        if (totalYears >= 1) {
+            listenTimeText = String.format(Locale.US, "%.1f %s", totalYears, t("years"));
+        } else if (totalDays >= 1) {
+            listenTimeText = String.format(Locale.US, "%.1f %s", totalDays, t("days"));
+        } else {
+            listenTimeText = totalHours + " " + t("hours");
+        }
+
+        String finishDateText = "";
+        try {
+            java.util.Calendar finishCal = java.util.Calendar.getInstance();
+            finishCal.add(java.util.Calendar.SECOND, (int) Math.min(totalSeconds, Integer.MAX_VALUE - 1));
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, yyyy", Locale.US);
+            finishDateText = sdf.format(finishCal.getTime());
+        } catch (Exception e) {
+        }
+
+        createCategoryHeader(t("Library"));
+        containerSettingsItems.addView(createSettingRow(t("Songs"), String.valueOf(songCount)));
+        containerSettingsItems.addView(createSettingRow(t("Artists"), String.valueOf(artistCount)));
+        containerSettingsItems.addView(createSettingRow(t("Podcasts"), String.valueOf(podcastCount)));
+        containerSettingsItems.addView(createSettingRow(t("Audiobooks"), String.valueOf(audiobookCount)));
+        containerSettingsItems.addView(createSettingRow(t("Videos"), String.valueOf(videoCount)));
+
+        createCategoryHeader(t("Storage"));
+        containerSettingsItems.addView(createSettingRow(t("Storage Used"), formatStorageSize(usedMB)));
+        containerSettingsItems.addView(createSettingRow(t("Storage Available"), formatStorageSize(freeMB)));
+
+        createCategoryHeader(t("Fun Facts"));
+        containerSettingsItems.addView(createSettingRow(t("Back-to-back listen time"), listenTimeText + " (" + t("est.") + ")"));
+        if (!finishDateText.isEmpty()) {
+            containerSettingsItems.addView(createSettingRow(t("Finish date if started today"), finishDateText));
+        }
+
+        createCategoryHeader(t("Credits"));
+        containerSettingsItems.addView(createSettingRow(t("Original Launcher"), "ismileblue"));
+        containerSettingsItems.addView(createSettingRow(t("Emby Sync Fork"), "Budm"));
+
+        // 🚀 [Bugfix] Same fix as buildDateTimeUI() — index 0 here is the
+        // "Library" category header, not focusable, so a hardcoded index
+        // would silently fail to focus anything.
+        for (int i = 0; i < containerSettingsItems.getChildCount(); i++) {
+            if (containerSettingsItems.getChildAt(i).isFocusable()) {
+                containerSettingsItems.getChildAt(i).requestFocus();
+                break;
+            }
+        }
+    }
+
+    private static final String[] AUDIO_FILE_EXTENSIONS = {
+            ".mp3", ".m4a", ".m4b", ".flac", ".wav", ".ogg", ".opus", ".aac"
+    };
+    private static final String[] VIDEO_FILE_EXTENSIONS = {
+            ".mp4", ".mkv", ".avi", ".mov", ".webm", ".3gp"
+    };
+
+    private int countMediaFilesRecursive(File dir, String[] extensions) {
+        if (dir == null || !dir.exists()) return 0;
+        File[] children = dir.listFiles();
+        if (children == null) return 0;
+        int count = 0;
+        for (File f : children) {
+            if (f.isDirectory()) {
+                count += countMediaFilesRecursive(f, extensions);
+            } else {
+                String lower = f.getName().toLowerCase(Locale.US);
+                for (String ext : extensions) {
+                    if (lower.endsWith(ext)) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
     private void buildDateTimeSelectorUI(final String type, int min, int max, int currentValue) {
         currentSettingsDepth = 3; // 🚀 카테고리(0) → 서브 메뉴(1) → DateTime(2) → 이 화면(3)
         containerSettingsItems.removeAllViews();
