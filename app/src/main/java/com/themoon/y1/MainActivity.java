@@ -6933,11 +6933,12 @@ public class MainActivity extends Activity {
                         }
                     });
                 } catch (Exception e) {
+                    final String errDetail = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             TextView tvServer = (TextView) rowServer.getChildAt(1);
-                            tvServer.setText(t("Network Error"));
+                            tvServer.setText(t("Network Error") + ": " + errDetail);
                             tvServer.setTextColor(0xFFFF4444); // 빨간색 에러 표시
                         }
                     });

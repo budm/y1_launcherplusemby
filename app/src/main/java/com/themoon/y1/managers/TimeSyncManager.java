@@ -18,9 +18,11 @@ import java.util.TimeZone;
  * Fetches accurate time + timezone from the network and applies both.
  *
  * This hardware has no cell radio (no NITZ) and no GPS, so there's no
- * on-device source of truth for time/timezone the way a phone would have —
- * worldtimeapi.org's IP-based lookup stands in for that, returning both the
- * correct UTC time and an IP-geolocated timezone in one call, zero config.
+ * on-device source of truth for time/timezone the way a phone would have.
+ * Time comes from real NTP (time.google.com) — the actual protocol, not a
+ * wrapper API that can shut down — and timezone from ip-api.com's free
+ * IP-geolocation lookup. (An earlier version used worldtimeapi.org for
+ * both; that service has since shut down.)
  *
  * Applied via the same self-verifying, multi-format root shell approach
  * already proven in MainActivity.buildDateTimeUI()'s manual "Apply" button —
@@ -86,27 +88,66 @@ public class TimeSyncManager {
 
     private String doSync() {
         try {
-            URL url = new URL("http://worldtimeapi.org/api/ip");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(6000);
-            conn.setReadTimeout(6000);
-            if (conn.getResponseCode() != 200) return "Network error";
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) sb.append(line);
-            br.close();
-
-            JSONObject json = new JSONObject(sb.toString());
-            long unixSeconds = json.getLong("unixtime");
-            String tzId = json.getString("timezone");
+            // 🚀 [worldtimeapi.org shut down — confirmed via their own site,
+            // "the service has shut down... costs became too high to justify
+            // for a free service." Replaced with two independent, more
+            // durable sources: real NTP for time (the actual protocol, not a
+            // wrapper API that can vanish) and ip-api.com — a long-running,
+            // widely-used free geolocation service — for timezone only.]
+            long unixMillis = fetchNtpTime("time.google.com");
+            long unixSeconds = unixMillis / 1000L;
+            String tzId = fetchTimezoneFromIp();
 
             boolean applied = applyTimeAndZone(unixSeconds, tzId);
             return applied ? ("Synced: " + tzId) : "Sync failed: root access required";
         } catch (Exception e) {
             return "Sync failed: " + e.getMessage();
         }
+    }
+
+    /** Minimal SNTP client — sends a client request, reads the transmit timestamp back. */
+    private long fetchNtpTime(String ntpServer) throws Exception {
+        java.net.DatagramSocket socket = new java.net.DatagramSocket();
+        try {
+            socket.setSoTimeout(8000);
+            java.net.InetAddress address = java.net.InetAddress.getByName(ntpServer);
+            byte[] buf = new byte[48];
+            buf[0] = 0x1B; // client request, NTP version 3, mode 3
+            java.net.DatagramPacket request = new java.net.DatagramPacket(buf, buf.length, address, 123);
+            socket.send(request);
+
+            java.net.DatagramPacket response = new java.net.DatagramPacket(buf, buf.length);
+            socket.receive(response);
+
+            // Transmit Timestamp: seconds at bytes 40-43, fraction at 44-47 (NTP epoch = 1900).
+            long seconds = 0;
+            for (int i = 40; i < 44; i++) seconds = (seconds << 8) | (buf[i] & 0xFF);
+            long fraction = 0;
+            for (int i = 44; i < 48; i++) fraction = (fraction << 8) | (buf[i] & 0xFF);
+
+            long millisSinceNtpEpoch = (seconds * 1000L) + ((fraction * 1000L) / 0x100000000L);
+            long ntpToUnixOffsetMillis = 2208988800L * 1000L;
+            return millisSinceNtpEpoch - ntpToUnixOffsetMillis;
+        } finally {
+            socket.close();
+        }
+    }
+
+    private String fetchTimezoneFromIp() throws Exception {
+        URL url = new URL("http://ip-api.com/json/?fields=timezone");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(6000);
+        conn.setReadTimeout(6000);
+        if (conn.getResponseCode() != 200) throw new java.io.IOException("HTTP " + conn.getResponseCode());
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) sb.append(line);
+        br.close();
+
+        JSONObject json = new JSONObject(sb.toString());
+        return json.getString("timezone");
     }
 
     private boolean applyTimeAndZone(long unixSeconds, String tzId) {
