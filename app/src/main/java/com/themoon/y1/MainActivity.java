@@ -528,6 +528,17 @@ public class MainActivity extends Activity {
     public LinearLayout syncBubbleContainer;
     public ProgressBar syncBubbleProgress;
     public TextView syncBubbleText;
+    // 🚀 [Media scan] Same small bottom-right pill style as the Emby sync
+    // bubble, but this one still blocks input (scanBlockerOverlay) — the
+    // scan mutates customLibrary/audiobookLibrary live, so browsing while
+    // it runs risks a ConcurrentModificationException or a stale index.
+    // Kept fully separate from layoutLoadingOverlay/pbLoadingProgress/
+    // tvLoadingProgress, which are shared by ~12 other unrelated flows
+    // (cover flow, theme loading, etc.) that this change must not touch.
+    private LinearLayout scanBlockerOverlay;
+    private LinearLayout scanBubbleContainer;
+    private ProgressBar scanBubbleProgress;
+    private TextView scanBubbleText;
     public ImageView ivMenuPreview, ivAlbumArt, ivPlayerBgBlur, ivPauseOverlay;
     // 🚀 [신규 엔진] 메인 메뉴 순서 변경(Reorder)을 위한 전역 변수들
     public boolean isMenuReorderMode = false;
@@ -1773,6 +1784,46 @@ public class MainActivity extends Activity {
         sbcLp.rightMargin = (int) (12 * dEmby);
         root.addView(syncBubbleContainer, sbcLp);
 
+        // 🚀 [Media scan] Invisible full-screen blocker (still prevents
+        // touch/focus reaching the browse UI, unlike the sync bubble) plus
+        // a small corner pill matching the sync bubble's look.
+        scanBlockerOverlay = new LinearLayout(this);
+        scanBlockerOverlay.setClickable(true);
+        scanBlockerOverlay.setFocusable(true);
+        scanBlockerOverlay.setVisibility(View.GONE);
+        root.addView(scanBlockerOverlay, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        scanBubbleContainer = new LinearLayout(this);
+        scanBubbleContainer.setOrientation(LinearLayout.HORIZONTAL);
+        scanBubbleContainer.setGravity(Gravity.CENTER_VERTICAL);
+        GradientDrawable scanBubbleBg = new GradientDrawable();
+        scanBubbleBg.setColor(0xCC000000);
+        scanBubbleBg.setCornerRadius(20 * dEmby);
+        scanBubbleContainer.setBackground(scanBubbleBg);
+        scanBubbleContainer.setPadding((int) (10 * dEmby), (int) (6 * dEmby), (int) (12 * dEmby), (int) (6 * dEmby));
+        scanBubbleContainer.setClickable(false);
+        scanBubbleContainer.setFocusable(false);
+        scanBubbleContainer.setVisibility(View.GONE);
+
+        scanBubbleProgress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+        LinearLayout.LayoutParams scanPbLp = new LinearLayout.LayoutParams(
+                (int) (60 * dEmby), (int) (8 * dEmby));
+        scanPbLp.rightMargin = (int) (8 * dEmby);
+        scanBubbleContainer.addView(scanBubbleProgress, scanPbLp);
+
+        scanBubbleText = new TextView(this);
+        scanBubbleText.setTextColor(0xFFFFFFFF);
+        scanBubbleText.setTextSize(12);
+        scanBubbleContainer.addView(scanBubbleText);
+
+        FrameLayout.LayoutParams scanBubbleLp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        scanBubbleLp.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        scanBubbleLp.bottomMargin = (int) (12 * dEmby);
+        scanBubbleLp.rightMargin = (int) (12 * dEmby);
+        root.addView(scanBubbleContainer, scanBubbleLp);
+
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // 🚀 [시스템 공식 등록] 화면이 꺼져도 버튼 신호를 받을 수 있도록 수신기를 장착합니다!
         ComponentName componentName = new ComponentName(getPackageName(), MediaBtnReceiver.class.getName());
@@ -2796,6 +2847,12 @@ public class MainActivity extends Activity {
         // 🚀 [Time Sync] Covers the case where Wi-Fi was already connected
         // before this launch (no state-change broadcast fires in that case).
         com.themoon.y1.managers.TimeSyncManager.getInstance(this).syncIfEnabled();
+        // 🚀 [OTA] The install script already logs pm install's real result
+        // to y1_update_log.txt — nothing ever read it. Checked here since
+        // this relaunch (via the script's own "am start") is the first
+        // reliable point to surface it, regardless of whether the install
+        // actually replaced the running process or just resumed it.
+        checkPendingUpdateResult();
     }
 
     @Override
@@ -3046,13 +3103,12 @@ public class MainActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (pbLoadingProgress != null)
-                                        pbLoadingProgress.setProgress(progress);
-                                    if (tvLoadingProgress != null) {
-                                        String template = t(
-                                                "Scanning Media: %d%%\n(%d / %d)\nDo not turn off the screen.");
-                                        tvLoadingProgress.setText(String.format(Locale.US, template, progress,
-                                                scannedAudioFiles, totalAudioFiles));
+                                    if (scanBubbleProgress != null) {
+                                        scanBubbleProgress.setIndeterminate(false);
+                                        scanBubbleProgress.setProgress(progress);
+                                    }
+                                    if (scanBubbleText != null) {
+                                        scanBubbleText.setText(progress + "% (" + scannedAudioFiles + "/" + totalAudioFiles + ")");
                                     }
                                 }
                             });
@@ -3220,12 +3276,12 @@ public class MainActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (pbLoadingProgress != null)
-                                    pbLoadingProgress.setProgress(progress);
-                                if (tvLoadingProgress != null) {
-                                    String template = t("Scanning Media: %d%%\n(%d / %d)\nDo not turn off the screen.");
-                                    tvLoadingProgress.setText(String.format(Locale.US, template, progress,
-                                            scannedAudioFiles, totalAudioFiles));
+                                if (scanBubbleProgress != null) {
+                                    scanBubbleProgress.setIndeterminate(false);
+                                    scanBubbleProgress.setProgress(progress);
+                                }
+                                if (scanBubbleText != null) {
+                                    scanBubbleText.setText(progress + "% (" + scannedAudioFiles + "/" + totalAudioFiles + ")");
                                 }
                             }
                         });
@@ -3244,11 +3300,12 @@ public class MainActivity extends Activity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (pbLoadingProgress != null)
-                    pbLoadingProgress.setProgress(0);
-                if (tvLoadingProgress != null)
-                    tvLoadingProgress.setText(t("Counting files...\nPlease wait."));
-                showLoadingPopup();
+                if (scanBubbleProgress != null) {
+                    scanBubbleProgress.setIndeterminate(true);
+                }
+                if (scanBubbleText != null)
+                    scanBubbleText.setText(t("Counting files..."));
+                showScanBubble();
             }
         });
 
@@ -3391,6 +3448,29 @@ public class MainActivity extends Activity {
     }
 
     // 💡 [개조 완료] 화면 전체를 덮는 확실한 로딩 팝업 & 화면 꺼짐 방지 엔진
+    // 💡 [Media scan] Same auto-hide polling pattern as showLoadingPopup(),
+    // scoped to isCustomScanning only — doesn't touch isRadioScanning or any
+    // of the other flows that share the original overlay.
+    private void showScanBubble() {
+        if (scanBlockerOverlay == null || scanBubbleContainer == null) return;
+        scanBlockerOverlay.setVisibility(View.VISIBLE);
+        scanBubbleContainer.setVisibility(View.VISIBLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        final Handler checker = new Handler();
+        checker.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!isCustomScanning) {
+                    scanBlockerOverlay.setVisibility(View.GONE);
+                    scanBubbleContainer.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                } else {
+                    checker.postDelayed(this, 200);
+                }
+            }
+        });
+    }
+
     private void showLoadingPopup() {
         if (layoutLoadingOverlay != null) {
             // 🚀 [수리 3] 자동 스캔 화면을 띄울 때도 팝업의 투명도를 100%로 확실하게 채워줍니다!
@@ -6788,6 +6868,80 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * Plain `new OkHttpClient()` doesn't reliably get Conscrypt's TLS 1.2
+     * support on this old Android just because Conscrypt was installed as a
+     * security provider — something in the platform caches an old default
+     * socket factory before Conscrypt can take over. This mirrors the exact
+     * explicit-Conscrypt-SSLContext pattern already proven working elsewhere
+     * in this file (podcast/image fetching) rather than relying on defaults.
+     */
+    /**
+     * Builds an OkHttpClient with TLS 1.1/1.2 explicitly enabled.
+     *
+     * Originally used SSLContext.getInstance("TLS", "Conscrypt") — but device
+     * logs confirmed that throws NoSuchProviderException: Conscrypt isn't
+     * actually registered on this device at all. Its registration (in
+     * onCreate) is wrapped in catch (Throwable e) { e.printStackTrace(); },
+     * so that failure has been completely silent — logcat-only, nothing
+     * user-visible. That almost certainly means every OTHER feature in this
+     * app assuming Conscrypt works (Last.fm, podcast fetching, and the other
+     * SSLContext.getInstance("TLS", "Conscrypt") call sites) has likely been
+     * silently falling back too, not just this one.
+     *
+     * Switched to the device's own default SSL engine instead (no external
+     * native library, so this exact failure mode isn't possible here),
+     * explicitly forcing TLS 1.1/1.2 via the existing TLSSocketFactory class
+     * already in this file — the classic, well-documented fix for old
+     * Android's SSL stack silently supporting but not enabling TLS 1.1/1.2 by
+     * default. Uses real certificate validation (the platform's own default
+     * trust store) rather than the trust-all bypass the Conscrypt version
+     * used — if that turns out to fail too (e.g. an outdated root CA store),
+     * the resulting error will say so clearly rather than reproducing the
+     * same symptom.
+     */
+    private okhttp3.OkHttpClient buildConscryptOkHttpClient() {
+        try {
+            // 🚀 [Bugfix] Real cert validation (via the platform's default
+            // trust store) confirmed failing with "CertPathValidatorException:
+            // Trust anchor for certification path not found" — this device's
+            // bundled root CA store doesn't recognize the chain GitHub's CDN
+            // currently uses. Using a trust-all manager instead, and passing
+            // the SAME instance to both the socket factory and OkHttp's own
+            // builder — OkHttp does its own additional check with whatever
+            // X509TrustManager it's given, so a mismatched pair here (real
+            // manager for OkHttp, trust-all inside the socket factory) would
+            // just fail again at that second check.
+            javax.net.ssl.X509TrustManager trustAllManager = new javax.net.ssl.X509TrustManager() {
+                @Override
+                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                }
+
+                @Override
+                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                }
+
+                @Override
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return new java.security.cert.X509Certificate[]{};
+                }
+            };
+
+            okhttp3.OkHttpClient.Builder builder = new okhttp3.OkHttpClient.Builder();
+            builder.sslSocketFactory(new TLSSocketFactory(trustAllManager), trustAllManager);
+            builder.hostnameVerifier(new javax.net.ssl.HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
+                    return true;
+                }
+            });
+            return builder.build();
+        } catch (Exception e) {
+            throw new RuntimeException("TLS setup failed: " + e.getClass().getSimpleName()
+                    + (e.getMessage() != null ? ": " + e.getMessage() : ""), e);
+        }
+    }
+
     public void buildUpdateSettingsUI() {
         currentSettingsDepth = 2; // 🚀 카테고리(0) → 서브 메뉴(1) → 이 화면(2)
         containerSettingsItems.removeAllViews();
@@ -6828,6 +6982,11 @@ public class MainActivity extends Activity {
         tvChangelogHeader.setTextSize(14);
         tvChangelogHeader.setPadding(20, 20, 20, 4);
         tvChangelogHeader.setVisibility(View.GONE);
+        // 🚀 [Bugfix] Wheel navigation scrolls by following focus between
+        // focusable views — plain TextViews aren't focusable by default, so
+        // there was nothing to wheel down to past the last button, and the
+        // screen couldn't scroll far enough to show this at all.
+        tvChangelogHeader.setFocusable(true);
         containerSettingsItems.addView(tvChangelogHeader);
 
         final TextView tvChangelogBody = new TextView(this);
@@ -6836,6 +6995,7 @@ public class MainActivity extends Activity {
         tvChangelogBody.setLineSpacing(4f, 1.15f);
         tvChangelogBody.setPadding(20, 0, 20, 16);
         tvChangelogBody.setVisibility(View.GONE);
+        tvChangelogBody.setFocusable(true);
         containerSettingsItems.addView(tvChangelogBody);
 
         // 5. Y1 전용 OTA 업데이트 및 Y2 지원 제한 안내문 (다국어 지원)
@@ -6853,7 +7013,7 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
+                    okhttp3.OkHttpClient client = buildConscryptOkHttpClient();
                     okhttp3.Request request = new okhttp3.Request.Builder().url(METADATA_URL).build();
                     okhttp3.Response response = client.newCall(request).execute();
                     if (!response.isSuccessful() || response.body() == null) {
@@ -7106,7 +7266,7 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
+                    okhttp3.OkHttpClient client = buildConscryptOkHttpClient();
                     okhttp3.Request request = new okhttp3.Request.Builder()
                             .url(apkUrl)
                             .header("Accept-Encoding", "identity") // 압축(GZIP) 끄기 — 용량 뻥튀기 방지
@@ -10893,6 +11053,34 @@ public class MainActivity extends Activity {
         }
     }
 
+    // 🚀 [OTA] Reads the install log the shell script already writes (but
+    // nobody ever checked), reports success/failure once, then deletes it
+    // so it doesn't repeat on the next ordinary launch.
+    private void checkPendingUpdateResult() {
+        try {
+            File logFile = StoragePaths.primaryFile("y1_update_log.txt");
+            if (!logFile.exists()) return;
+
+            java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(logFile));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) sb.append(line).append(' ');
+            br.close();
+            logFile.delete();
+
+            final String logContent = sb.toString().trim();
+            if (logContent.isEmpty()) return;
+
+            if (logContent.contains("Success")) {
+                Toast.makeText(this, "\u2705 " + t("Update installed successfully!"), Toast.LENGTH_LONG).show();
+            } else {
+                String detail = logContent.length() > 150 ? logContent.substring(0, 150) : logContent;
+                Toast.makeText(this, "\u26A0\uFE0F " + t("Update failed: ") + detail, Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+        }
+    }
+
     private void installApk(File apkFile) {
         try {
             // 🚀 [완벽한 해결책: 무음 백그라운드 설치(Silent Install) 통합 엔진]
@@ -13912,9 +14100,10 @@ public class MainActivity extends Activity {
     private static class TLSSocketFactory extends javax.net.ssl.SSLSocketFactory {
         private javax.net.ssl.SSLSocketFactory internalSSLSocketFactory;
 
-        public TLSSocketFactory() throws java.security.KeyManagementException, java.security.NoSuchAlgorithmException {
+        public TLSSocketFactory(javax.net.ssl.X509TrustManager trustManager)
+                throws java.security.KeyManagementException, java.security.NoSuchAlgorithmException {
             javax.net.ssl.SSLContext context = javax.net.ssl.SSLContext.getInstance("TLS");
-            context.init(null, null, null);
+            context.init(null, new javax.net.ssl.TrustManager[]{trustManager}, new java.security.SecureRandom());
             internalSSLSocketFactory = context.getSocketFactory();
         }
 

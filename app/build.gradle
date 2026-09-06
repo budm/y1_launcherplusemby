@@ -2,6 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+// 🚀 [Release signing] Credentials load from keystore.properties, which is
+// gitignored — never commit the keystore file or its password to a public
+// repo. See KEYSTORE_SETUP.md for what goes where.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace 'com.themoon.y1'
     compileSdk 35
@@ -33,6 +42,12 @@ android {
     }
     signingConfigs {
         release {
+            if (keystorePropertiesFile.exists()) {
+                storeFile rootProject.file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
             v1SigningEnabled true
             v2SigningEnabled true
         }

@@ -98,10 +98,12 @@ public class TimeSyncManager {
             long unixSeconds = unixMillis / 1000L;
             String tzId = fetchTimezoneFromIp();
 
-            boolean applied = applyTimeAndZone(unixSeconds, tzId);
-            return applied ? ("Synced: " + tzId) : "Sync failed: root access required";
+            boolean applied;
+            String applyErrorDetail = applyTimeAndZone(unixSeconds, tzId);
+            applied = applyErrorDetail == null;
+            return applied ? ("Synced: " + tzId) : ("Sync failed: " + applyErrorDetail);
         } catch (Exception e) {
-            return "Sync failed: " + e.getMessage();
+            return "Sync failed: " + e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : "");
         }
     }
 
@@ -150,7 +152,8 @@ public class TimeSyncManager {
         return json.getString("timezone");
     }
 
-    private boolean applyTimeAndZone(long unixSeconds, String tzId) {
+    /** Returns null on success, or a diagnostic detail string on failure. */
+    private String applyTimeAndZone(long unixSeconds, String tzId) {
         try {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(tzId));
             cal.setTimeInMillis(unixSeconds * 1000L);
@@ -177,16 +180,47 @@ public class TimeSyncManager {
                     + "hwclock -w; sync";
 
             Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
-            proc.waitFor();
+            int exitCode = proc.waitFor();
 
-            context.sendBroadcast(new Intent(Intent.ACTION_TIME_CHANGED));
-            Intent tzIntent = new Intent(Intent.ACTION_TIMEZONE_CHANGED);
-            tzIntent.putExtra("time-zone", tzId);
-            context.sendBroadcast(tzIntent);
+            if (exitCode != 0) {
+                String stderr = readStreamQuiet(proc.getErrorStream());
+                return "su exited " + exitCode + (stderr.isEmpty() ? "" : " (" + stderr + ")");
+            }
 
-            return true;
+            // 🚀 [Bugfix] ACTION_TIMEZONE_CHANGED is a protected broadcast —
+            // confirmed via device logs: "SecurityException: Permission
+            // Denial: not allowed to send broadcast
+            // android.intent.action.TIMEZONE_CHANGED". No regular app can
+            // send it, root shell access notwithstanding (su lets us set the
+            // persist.sys.timezone property directly, which is the part
+            // that actually matters — sending this broadcast was only ever
+            // a "notify other components immediately" nicety, not what
+            // makes the timezone change take effect). Dropped entirely.
+            // ACTION_TIME_CHANGED is kept (proven to work via the existing
+            // manual Date & Time apply flow) but wrapped defensively so a
+            // broadcast hiccup here can never turn an otherwise-successful
+            // root-level time/timezone change into a reported failure.
+            try {
+                context.sendBroadcast(new Intent(Intent.ACTION_TIME_CHANGED));
+            } catch (Exception broadcastError) {
+            }
+
+            return null;
         } catch (Exception e) {
-            return false;
+            return e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : "");
+        }
+    }
+
+    private String readStreamQuiet(java.io.InputStream in) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) sb.append(line).append(' ');
+            br.close();
+            return sb.toString().trim();
+        } catch (Exception e) {
+            return "";
         }
     }
 
