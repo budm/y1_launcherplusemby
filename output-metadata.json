@@ -3,7 +3,17 @@
     {
       "versionCode": 900061,
       "versionName": "0.11.6 hotfix 4 (custom: Emby Sync)",
-      "outputFile": "y1-custom-900061.apk"
+      "outputFile": "y1-custom-900061.apk",
+      "changelog": [
+        "Emby server sync with daily auto-sync",
+        "On-device Emby login via wheel keyboard",
+        "Non-blocking sync progress indicator",
+        "Scroll acceleration for keyboard and song/artist lists",
+        "Extended screen timeout options up to Always On",
+        "Automatic time and timezone sync",
+        "Online lyrics lookup via LRCLIB",
+        "Self-hosted OTA updates with in-device changelog"
+      ]
     }
   ]
 }
