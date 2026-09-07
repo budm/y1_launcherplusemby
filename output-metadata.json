@@ -1,7 +1,7 @@
 {
   "elements": [
     {
-      "versionCode": 900064,
+      "versionCode": 900063,
       "versionName": "0.11.6 hotfix 4 (custom: Emby Sync r3)",
       "outputFile": "https://github.com/budm/y1_launcherplusemby/raw/refs/heads/master/app/build/outputs/apk/release/JJ.apk",
       "changelog": [
