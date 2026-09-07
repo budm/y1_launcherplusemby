@@ -32,14 +32,19 @@ original JJ Launcher. See [CHANGELOG.md](CHANGELOG.md) for the full
 version history — the same list shown on-device under
 **Settings → System → System Update**.
 
-**Latest ([900062] - 0.11.6 hotfix 4, custom: Emby Sync r2):**
-- Fixed screen timeout persistence, sync freezing on large libraries, and
-  truncated-download playback errors (M4A/ALAC)
-- Fixed System Update network errors and two focus/highlight bugs
-- Added Reboot option and an About Device screen (library stats, storage,
-  fun facts, credits)
-- Sync progress indicator moved to bottom-right; OTA APK now hosted at its
-  own URL separate from the metadata JSON
+**Latest ([900063] - 0.11.6 hotfix 4, custom: Emby Sync r3):**
+- Podcasts and Last.fm hardened against the same silent TLS failure that
+  broke System Update — likely fixes podcast downloading/browsing/search
+  outright, not just OTA updates
+- System Update network error root cause found and fixed: Conscrypt was
+  silently failing to register at all on this device
+- Time sync moved off a now-defunct API to real NTP + IP geolocation
+- Sync freeze fixes continued: renewing wake lock, explicit network
+  timeouts, skip unnecessary rescans, true per-file resume on failure
+- Changelog display fully fixed (reachable and no longer cut off)
+- Reboot option, About Device (now top of Settings), install
+  success/failure feedback, dedicated release keystore for stable OTA
+  signing, and a menu-reorder discoverability hint
 
 ---
 

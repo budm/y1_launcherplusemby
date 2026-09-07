@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.themoon.y1"
-    android:versionCode="900062"
-    android:versionName="0.11.6 hotfix 4 (custom: Emby Sync r2)" >
+    android:versionCode="900063"
+    android:versionName="0.11.6 hotfix 4 (custom: Emby Sync r3)" >
 
     <uses-sdk
         android:minSdkVersion="17"

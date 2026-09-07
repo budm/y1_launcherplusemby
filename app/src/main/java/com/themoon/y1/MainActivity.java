@@ -6989,15 +6989,6 @@ public class MainActivity extends Activity {
         tvChangelogHeader.setFocusable(true);
         containerSettingsItems.addView(tvChangelogHeader);
 
-        final TextView tvChangelogBody = new TextView(this);
-        tvChangelogBody.setTextColor(ThemeManager.getTextColorSecondary());
-        tvChangelogBody.setTextSize(13);
-        tvChangelogBody.setLineSpacing(4f, 1.15f);
-        tvChangelogBody.setPadding(20, 0, 20, 16);
-        tvChangelogBody.setVisibility(View.GONE);
-        tvChangelogBody.setFocusable(true);
-        containerSettingsItems.addView(tvChangelogBody);
-
         // 5. Y1 전용 OTA 업데이트 및 Y2 지원 제한 안내문 (다국어 지원)
         TextView tvNotice = new TextView(this);
         tvNotice.setTypeface(ThemeManager.getCustomFont(), Typeface.NORMAL);
@@ -7030,17 +7021,17 @@ public class MainActivity extends Activity {
                     final String apkFileName = element.getString("outputFile");
 
                     // 🚀 [Changelog] Optional field — older metadata files without it just skip this.
-                    String changelogText = "";
+                    // Kept as separate lines (not one joined string) — each becomes its own small
+                    // focusable row below, since one giant TextView taller than the screen has
+                    // nowhere further for the wheel to focus, cutting off anything past the top.
+                    final java.util.List<String> changelogLines = new java.util.ArrayList<>();
                     org.json.JSONArray changelogArr = element.optJSONArray("changelog");
                     if (changelogArr != null) {
-                        StringBuilder clBuilder = new StringBuilder();
                         for (int i = 0; i < changelogArr.length(); i++) {
-                            if (i > 0) clBuilder.append("\n");
-                            clBuilder.append("• ").append(changelogArr.optString(i, ""));
+                            String line = changelogArr.optString(i, "");
+                            if (!line.isEmpty()) changelogLines.add(line);
                         }
-                        changelogText = clBuilder.toString();
                     }
-                    final String finalChangelogText = changelogText;
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -7049,10 +7040,17 @@ public class MainActivity extends Activity {
                             TextView tvServer = (TextView) rowServer.getChildAt(1);
                             tvServer.setText("Build: " + serverVersionCode);
 
-                            if (!finalChangelogText.isEmpty()) {
+                            if (!changelogLines.isEmpty()) {
                                 tvChangelogHeader.setVisibility(View.VISIBLE);
-                                tvChangelogBody.setVisibility(View.VISIBLE);
-                                tvChangelogBody.setText(finalChangelogText);
+                                for (String line : changelogLines) {
+                                    TextView tvLine = new TextView(MainActivity.this);
+                                    tvLine.setText("• " + line);
+                                    tvLine.setTextColor(ThemeManager.getTextColorSecondary());
+                                    tvLine.setTextSize(13);
+                                    tvLine.setPadding(20, 4, 20, 4);
+                                    tvLine.setFocusable(true);
+                                    containerSettingsItems.addView(tvLine);
+                                }
                             }
 
                             // 🚀 [비교] 업데이트가 필요할 때
@@ -7995,37 +7993,16 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    okhttp3.OkHttpClient.Builder builder = new okhttp3.OkHttpClient.Builder();
-
-                    // 💡 [핵심] 서버를 완벽하게 속이는 프리패스 보안 캡슐 장착!
-                    javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[] {
-                            new javax.net.ssl.X509TrustManager() {
-                                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                                    return new java.security.cert.X509Certificate[] {};
-                                }
-
-                                public void checkClientTrusted(java.security.cert.X509Certificate[] certs,
-                                        String authType) {
-                                }
-
-                                public void checkServerTrusted(java.security.cert.X509Certificate[] certs,
-                                        String authType) {
-                                }
-                            }
-                    };
-                    javax.net.ssl.SSLContext sslContext = javax.net.ssl.SSLContext.getInstance("TLS", "Conscrypt");
-                    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-                    builder.sslSocketFactory(sslContext.getSocketFactory(),
-                            (javax.net.ssl.X509TrustManager) trustAllCerts[0]);
-
-                    builder.hostnameVerifier(new javax.net.ssl.HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
-                            return true;
-                        }
-                    });
-
-                    okhttp3.OkHttpClient client = builder.build();
+                    // 🚀 [Bugfix] Was using SSLContext.getInstance("TLS", "Conscrypt")
+                    // directly — confirmed via System Update's identical failure that
+                    // Conscrypt silently fails to register on this device at all
+                    // (NoSuchProviderException, swallowed by a catch(Throwable) at
+                    // startup). This almost certainly means podcast downloads have
+                    // been failing the same way this whole time. Reusing the same
+                    // fix already proven working for System Update: the platform's
+                    // own SSL engine with TLS 1.1/1.2 explicitly forced on, no
+                    // Conscrypt dependency at all.
+                    okhttp3.OkHttpClient client = buildConscryptOkHttpClient();
 
                     // 💡 위장 신분증과 함께 '압축 해제(identity)' 명령을 내려 퍼센트 오류를 막습니다!
                     okhttp3.Request request = new okhttp3.Request.Builder()
@@ -8463,31 +8440,12 @@ public class MainActivity extends Activity {
             public void run() {
                 final List<SongItem> episodes = new ArrayList<>();
                 try {
-                    okhttp3.OkHttpClient.Builder builder = new okhttp3.OkHttpClient.Builder();
-
-                    javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[] {
-                            new javax.net.ssl.X509TrustManager() {
-                                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                                    return new java.security.cert.X509Certificate[] {};
-                                }
-
-                                public void checkClientTrusted(java.security.cert.X509Certificate[] certs,
-                                        String authType) {
-                                }
-
-                                public void checkServerTrusted(java.security.cert.X509Certificate[] certs,
-                                        String authType) {
-                                }
-                            }
-                    };
-                    javax.net.ssl.SSLContext sslContext = javax.net.ssl.SSLContext.getInstance("TLS", "Conscrypt");
-                    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-                    builder.sslSocketFactory(sslContext.getSocketFactory(),
-                            (javax.net.ssl.X509TrustManager) trustAllCerts[0]);
-                    builder.hostnameVerifier((hostname, session) -> true);
-
-                    // 🚀 [해결 1] 컬투쇼 같은 거대 XML을 버텨내도록 타임아웃을 60초로 대폭 늘립니다!
-                    okhttp3.OkHttpClient client = builder
+                    // 🚀 [Bugfix] Same Conscrypt-registration failure as the
+                    // other podcast call sites — reusing the same fix, then
+                    // layering this method's longer timeouts (for large XML
+                    // feeds) on top via newBuilder() rather than duplicating
+                    // the whole TLS setup again.
+                    okhttp3.OkHttpClient client = buildConscryptOkHttpClient().newBuilder()
                             .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                             .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
                             .build();
@@ -11903,7 +11861,12 @@ public class MainActivity extends Activity {
                 && currentReorderRow != null) {
             if (keyCode == 21) { // 휠 위로 (UP)
                 int idx = containerSettingsItems.indexOfChild(currentReorderRow);
-                if (idx > 0) {
+                // 🚀 [Bugfix] Was `idx > 0` — but the instructional hint line
+                // added above the reorderable rows now occupies index 0, so
+                // that check alone would let a menu item get dragged above
+                // it. Floor raised to keep the hint permanently pinned at
+                // the top regardless of how items get reordered.
+                if (idx > 1) {
                     containerSettingsItems.removeViewAt(idx);
                     containerSettingsItems.addView(currentReorderRow, idx - 1);
                     currentReorderRow.requestFocus();
@@ -13656,9 +13619,46 @@ public class MainActivity extends Activity {
     // credits: original launcher by ismileblue, this Emby-sync fork by Budm.
     // =========================================================
     public void buildAboutDeviceUI() {
-        currentSettingsDepth = 2;
+        // 🚀 [Moved] Now a direct top-level Settings destination (like Theme),
+        // not reached through an intermediate sub-menu anymore — depth 1,
+        // matching buildThemeSelectorUI()'s pattern, so the back button
+        // correctly returns straight to the main Settings screen.
+        currentSettingsDepth = 1;
         containerSettingsItems.removeAllViews();
         com.themoon.y1.managers.SettingsMenuManager.getInstance(this).updateSettingsTitle(t("About Device"));
+
+        // 🚀 [Header] Spacing, centered disc emoji, then the build number —
+        // all above the existing Library/Storage/Fun Facts/Credits sections.
+        int myBuildCode = 1;
+        try {
+            myBuildCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (Exception e) {
+        }
+
+        TextView tvAboutSpacer1 = new TextView(this);
+        tvAboutSpacer1.setText("\n\n");
+        containerSettingsItems.addView(tvAboutSpacer1);
+
+        TextView tvAboutIcon = new TextView(this);
+        tvAboutIcon.setText("\uD83D\uDCBD");
+        tvAboutIcon.setTextSize(40);
+        tvAboutIcon.setGravity(Gravity.CENTER);
+        tvAboutIcon.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        containerSettingsItems.addView(tvAboutIcon);
+
+        TextView tvAboutBuild = new TextView(this);
+        tvAboutBuild.setText("Build: " + myBuildCode);
+        tvAboutBuild.setTextColor(ThemeManager.getTextColorSecondary());
+        tvAboutBuild.setTextSize(13);
+        tvAboutBuild.setGravity(Gravity.CENTER);
+        tvAboutBuild.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        containerSettingsItems.addView(tvAboutBuild);
+
+        TextView tvAboutSpacer2 = new TextView(this);
+        tvAboutSpacer2.setText("\n\n");
+        containerSettingsItems.addView(tvAboutSpacer2);
 
         int songCount = customLibrary.size();
         java.util.HashSet<String> artistSet = new java.util.HashSet<>();
@@ -16090,6 +16090,16 @@ public class MainActivity extends Activity {
         com.themoon.y1.managers.SettingsMenuManager.getInstance(this).updateSettingsTitle(t("Main Menu Items"));
         // ❌ 아티스트님의 요청에 따라 상단 카테고리 헤더 텍스트("━ SHOW / HIDE MENUS ━")를 흔적도 없이 완전히 삭제했습니다!
 
+        // 🚀 [Discoverability] Long-press-to-reorder had no on-screen hint
+        // anywhere — nothing indicated it was even possible. Sits at the top
+        // so it's visible immediately, no need to be focusable.
+        TextView tvInstructions = new TextView(this);
+        tvInstructions.setText(t("Tap to show/hide") + "  •  " + t("Long-press to reorder"));
+        tvInstructions.setTextColor(ThemeManager.getTextColorSecondary());
+        tvInstructions.setTextSize(12);
+        tvInstructions.setPadding(20, 12, 20, 12);
+        containerSettingsItems.addView(tvInstructions);
+
         // 1. 현재 테마의 메인 메뉴 버튼들을 순서대로 정렬하여 가져옵니다.
         List<ThemeManager.MenuElement> buttons = new ArrayList<>();
         for (ThemeManager.MenuElement el : ThemeManager.getCurrentTheme().menuElements) {
@@ -16609,29 +16619,10 @@ public class MainActivity extends Activity {
                 String urlString = "https://itunes.apple.com/search?term=" + encodedKeyword
                         + "&entity=podcast&limit=200";
 
-                okhttp3.OkHttpClient.Builder builder = new okhttp3.OkHttpClient.Builder();
-                javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[] {
-                        new javax.net.ssl.X509TrustManager() {
-                            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                                return new java.security.cert.X509Certificate[] {};
-                            }
-
-                            public void checkClientTrusted(java.security.cert.X509Certificate[] certs,
-                                    String authType) {
-                            }
-
-                            public void checkServerTrusted(java.security.cert.X509Certificate[] certs,
-                                    String authType) {
-                            }
-                        }
-                };
-                javax.net.ssl.SSLContext sslContext = javax.net.ssl.SSLContext.getInstance("TLS", "Conscrypt");
-                sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-                builder.sslSocketFactory(sslContext.getSocketFactory(),
-                        (javax.net.ssl.X509TrustManager) trustAllCerts[0]);
-                builder.hostnameVerifier((hostname, session) -> true);
-
-                okhttp3.OkHttpClient client = builder.build();
+                // 🚀 [Bugfix] Same Conscrypt-registration failure as the other
+                // podcast call sites — reusing the proven fix instead of the
+                // broken Conscrypt-specific setup.
+                okhttp3.OkHttpClient client = buildConscryptOkHttpClient();
                 okhttp3.Request request = new okhttp3.Request.Builder().url(urlString).build();
                 okhttp3.Response response = client.newCall(request).execute();
 
@@ -16715,25 +16706,12 @@ public class MainActivity extends Activity {
         // =======================================================
         okhttp3.OkHttpClient tempClient = null;
         try {
-            okhttp3.OkHttpClient.Builder builder = new okhttp3.OkHttpClient.Builder();
-            javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[] {
-                    new javax.net.ssl.X509TrustManager() {
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[] {};
-                        }
-
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
-                        }
-
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
-                        }
-                    }
-            };
-            javax.net.ssl.SSLContext sslContext = javax.net.ssl.SSLContext.getInstance("TLS", "Conscrypt");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            builder.sslSocketFactory(sslContext.getSocketFactory(), (javax.net.ssl.X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier((hostname, session) -> true);
-            tempClient = builder.build();
+            // 🚀 [Bugfix] Same Conscrypt-registration failure as the other
+            // podcast call sites — reusing the proven fix. Still wrapped in
+            // this existing try/catch, so a failure here still just leaves
+            // imageClient null (thumbnails skip loading) rather than crashing
+            // the whole search results screen.
+            tempClient = buildConscryptOkHttpClient();
         } catch (Exception e) {
         }
 

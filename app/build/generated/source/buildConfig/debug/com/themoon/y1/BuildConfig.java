@@ -7,6 +7,6 @@ public final class BuildConfig {
   public static final boolean DEBUG = Boolean.parseBoolean("true");
   public static final String APPLICATION_ID = "com.themoon.y1";
   public static final String BUILD_TYPE = "debug";
-  public static final int VERSION_CODE = 900062;
-  public static final String VERSION_NAME = "0.11.6 hotfix 4 (custom: Emby Sync r2)";
+  public static final int VERSION_CODE = 900063;
+  public static final String VERSION_NAME = "0.11.6 hotfix 4 (custom: Emby Sync r3)";
 }

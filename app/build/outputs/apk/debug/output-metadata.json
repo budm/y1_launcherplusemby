@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 900062,
-      "versionName": "0.11.6 hotfix 4 (custom: Emby Sync r2)",
+      "versionCode": 900063,
+      "versionName": "0.11.6 hotfix 4 (custom: Emby Sync r3)",
       "outputFile": "app-debug.apk"
     }
   ],

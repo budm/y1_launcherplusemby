@@ -41,12 +41,32 @@ public class EmbyManager {
 
     private String host, userId, accessToken;
     private volatile boolean syncing = false;
+    // 🚀 [Stuck-sync safety valve] If a sync ever truly hangs and never
+    // reaches finishSync() (never resets `syncing`), every future attempt —
+    // manual or scheduled — would silently refuse to start forever, with
+    // only a "Sync already running" toast as a clue, until the whole app
+    // process gets killed (e.g. a reboot). Tracked so beginSync() can detect
+    // this and force a fresh attempt instead of staying stuck.
+    private volatile long syncStartTime = 0;
+    private static final long STUCK_SYNC_THRESHOLD_MS = 45 * 60 * 1000L; // generous — longer than the wake lock's renewable ceiling
     private android.os.PowerManager.WakeLock wakeLock;
 
     private EmbyManager(Context context) {
         this.context = context.getApplicationContext();
         this.prefs = this.context.getSharedPreferences("emby_prefs", Context.MODE_PRIVATE);
-        this.httpClient = new OkHttpClient();
+        // 🚀 [Bugfix] Default OkHttp timeouts (10s each) were never set
+        // explicitly — meaning a stalled connection on a flaky Wi-Fi
+        // connection could hang per-request for however long the platform
+        // defaults allow before failing, repeatedly, across a sync of
+        // thousands of requests. Explicit, deliberate values instead: fail
+        // fast on a truly dead connection attempt, but tolerate normal slow
+        // transfers (large lossless files) without spuriously timing out
+        // mid-download.
+        this.httpClient = new OkHttpClient.Builder()
+                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                .build();
         this.host = prefs.getString("host", null);
         this.userId = prefs.getString("user_id", null);
         this.accessToken = prefs.getString("access_token", null);
@@ -170,14 +190,23 @@ public class EmbyManager {
             return;
         }
         if (syncing) {
-            main.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(main, main.t("Sync already running."), Toast.LENGTH_SHORT).show();
-                }
-            });
-            return;
+            long elapsed = System.currentTimeMillis() - syncStartTime;
+            if (elapsed < STUCK_SYNC_THRESHOLD_MS) {
+                main.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(main, main.t("Sync already running."), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+            }
+            // 🚀 Stuck-sync recovery: the previous attempt never reached
+            // finishSync() within a generous window, so `syncing` was
+            // permanently blocking every future attempt. Force it clear and
+            // proceed with a fresh sync rather than staying stuck forever.
+            syncing = false;
         }
         syncing = true;
+        syncStartTime = System.currentTimeMillis();
 
         // 🚀 [Bugfix] A multi-thousand-file sync can run well past whatever
         // screen timeout is set (especially now that short timeouts like
@@ -189,7 +218,15 @@ public class EmbyManager {
             android.os.PowerManager pm = (android.os.PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (pm != null) {
                 wakeLock = pm.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "Y1EmbySync:sync");
-                wakeLock.acquire(30 * 60 * 1000L); // safety timeout — never hold indefinitely if release() is somehow missed
+                // 🚀 Reference-counted by default, which would require exactly
+                // as many release() calls as acquire() calls — but we now
+                // renew (re-acquire) periodically during a long sync, and
+                // finishSync() only ever calls release() once. Disabling
+                // reference counting makes each acquire() just reset/extend
+                // the timeout instead, so a single release() always fully
+                // releases it regardless of how many times we renewed.
+                wakeLock.setReferenceCounted(false);
+                wakeLock.acquire(30 * 60 * 1000L); // safety ceiling — renewed periodically below for long syncs
             }
         } catch (Exception e) {
         }
@@ -211,7 +248,7 @@ public class EmbyManager {
     }
 
     private void runSync(final MainActivity main) {
-        int downloaded = 0, skipped = 0, failed = 0;
+        int downloaded = 0, skipped = 0, failed = 0, pruned = 0;
         String resultMsg;
         File musicDir = StoragePaths.getMusicDir();
         long lastProgressPostTime = 0;
@@ -226,7 +263,7 @@ public class EmbyManager {
             Request listRequest = new Request.Builder().url(listUrl).get().build();
             Response listResponse = httpClient.newCall(listRequest).execute();
             if (!listResponse.isSuccessful() || listResponse.body() == null) {
-                finishSync(main, main.t("Failed to list library."));
+                finishSync(main, main.t("Failed to list library."), false);
                 return;
             }
             JSONArray items = new JSONObject(listResponse.body().string()).getJSONArray("Items");
@@ -316,25 +353,49 @@ public class EmbyManager {
 
                     manifest.recordItem(itemId, relativePath, dateCreated);
                     downloaded++;
+
+                    // 🚀 [Bugfix] Previously batched to every 25 downloads —
+                    // meaning a crash/freeze could lose up to 24 files' worth
+                    // of manifest bookkeeping. Those files would still be
+                    // correctly on disk (just redundantly re-downloaded next
+                    // time), not lost or corrupted — but saving after every
+                    // single successful download instead means a sync can
+                    // resume from exactly where it stopped, not "up to 24
+                    // items behind." A full manifest rewrite is small/fast
+                    // enough on local storage that doing it per-item rather
+                    // than batched isn't a meaningful cost.
+                    try {
+                        manifest.save();
+                    } catch (Exception ignored) {
+                    }
                 } catch (IOException e) {
                     // network drop mid-write: don't leave a partial file masquerading as real
                     if (outFile.exists()) outFile.delete();
                     failed++;
                 }
 
-                // 🚀 [Bugfix] Save periodically, not just once at the very
-                // end — a freeze/crash partway through a multi-thousand-file
-                // sync previously meant losing every download's progress and
-                // re-downloading everything on the next attempt.
+                // 🚀 [Bugfix] The wake lock had a flat 30-minute ceiling —
+                // fine for a typical sync, but a genuinely large library
+                // or slow connection could outlast it, letting the CPU
+                // suspend mid-sync even with the wake lock "fix" in
+                // place. Renewing periodically (as long as the loop is
+                // still making progress) means only a truly stuck sync
+                // ever hits the ceiling — which is the right fallback
+                // for that case, rather than holding the lock forever.
+                // (Coarser interval than the manifest save above — this
+                // is just CPU-suspend prevention, not data safety, so it
+                // doesn't need per-item granularity.)
                 if ((downloaded + failed) % 25 == 0) {
                     try {
-                        manifest.save();
+                        if (wakeLock != null && wakeLock.isHeld()) {
+                            wakeLock.acquire(30 * 60 * 1000L);
+                        }
                     } catch (Exception ignored) {
                     }
                 }
             }
 
-            int pruned = pruneRemovedItems(manifest, items, musicDir);
+            pruned = pruneRemovedItems(manifest, items, musicDir);
 
             manifest.save();
             resultMsg = main.t("Sync complete") + ": " + downloaded + " " + main.t("downloaded") + ", "
@@ -345,7 +406,7 @@ public class EmbyManager {
             resultMsg = main.t("Sync failed") + ": " + e.getMessage();
         }
 
-        finishSync(main, resultMsg);
+        finishSync(main, resultMsg, downloaded > 0 || pruned > 0);
     }
 
     /**
@@ -384,7 +445,7 @@ public class EmbyManager {
         });
     }
 
-    private void finishSync(final MainActivity main, final String message) {
+    private void finishSync(final MainActivity main, final String message, final boolean somethingChanged) {
         syncing = false;
         try {
             if (wakeLock != null && wakeLock.isHeld()) {
@@ -396,10 +457,14 @@ public class EmbyManager {
             public void run() {
                 main.syncBubbleContainer.setVisibility(View.GONE);
                 Toast.makeText(main, message, Toast.LENGTH_LONG).show();
-                // Reuse the real embedded scanner (not the system one) so new
-                // files actually show up in the launcher's library. This still
-                // uses the full-screen overlay, same as any other scan.
-                main.startMediaLibraryScan();
+                // 🚀 [Bugfix] Previously rescanned unconditionally, even when
+                // a sync found nothing new — meaning every sync was followed
+                // by a full blocking library rescan for no reason. Only
+                // worth the (correctly still-blocking) rescan when something
+                // actually changed.
+                if (somethingChanged) {
+                    main.startMediaLibraryScan();
+                }
             }
         });
     }

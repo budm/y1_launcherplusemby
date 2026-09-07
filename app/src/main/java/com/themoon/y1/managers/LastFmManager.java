@@ -66,10 +66,22 @@ public class LastFmManager {
                         }
                     }
             };
+            // 🚀 [Bugfix] SSLContext.getInstance("TLS") alone doesn't force
+            // TLS 1.1/1.2 to actually be enabled — old Android supports them
+            // but doesn't turn them on by default. This never hit the
+            // Conscrypt NoSuchProviderException that broke System Update and
+            // podcasts (it never asked for Conscrypt by name), but it was
+            // still one tightened-TLS-requirements server away from the
+            // exact same "protocol version rejected" failure. Wrapping the
+            // socket factory to explicitly enable both, same fix already
+            // proven for those other two features.
             final javax.net.ssl.SSLContext sslContext = javax.net.ssl.SSLContext.getInstance("TLS");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            final javax.net.ssl.SSLSocketFactory baseFactory = sslContext.getSocketFactory();
+            javax.net.ssl.SSLSocketFactory tlsEnabledFactory = new TlsEnablingSocketFactory(baseFactory);
+
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslContext.getSocketFactory(), (javax.net.ssl.X509TrustManager)trustAllCerts[0]);
+            builder.sslSocketFactory(tlsEnabledFactory, (javax.net.ssl.X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier(new javax.net.ssl.HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
@@ -78,7 +90,64 @@ public class LastFmManager {
             });
             return builder.build();
         } catch (Exception e) {
-            return new OkHttpClient();
+            // 🚀 [Bugfix] Was silently falling back to a plain OkHttpClient
+            // here, hiding whether setup itself was the actual failure —
+            // same diagnostic gap already fixed for System Update. Rethrow
+            // so a real failure here surfaces instead of masking itself as
+            // a generic network error somewhere downstream.
+            throw new RuntimeException("Last.fm TLS setup failed: " + e.getClass().getSimpleName()
+                    + (e.getMessage() != null ? ": " + e.getMessage() : ""), e);
+        }
+    }
+
+    /** Forces TLS 1.1/1.2 on every socket this factory creates — see getUnsafeOkHttpClient() above. */
+    private static class TlsEnablingSocketFactory extends javax.net.ssl.SSLSocketFactory {
+        private final javax.net.ssl.SSLSocketFactory delegate;
+
+        TlsEnablingSocketFactory(javax.net.ssl.SSLSocketFactory delegate) {
+            this.delegate = delegate;
+        }
+
+        private java.net.Socket enable(java.net.Socket socket) {
+            if (socket instanceof javax.net.ssl.SSLSocket) {
+                ((javax.net.ssl.SSLSocket) socket).setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"});
+            }
+            return socket;
+        }
+
+        @Override
+        public String[] getDefaultCipherSuites() {
+            return delegate.getDefaultCipherSuites();
+        }
+
+        @Override
+        public String[] getSupportedCipherSuites() {
+            return delegate.getSupportedCipherSuites();
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.Socket s, String host, int port, boolean autoClose) throws java.io.IOException {
+            return enable(delegate.createSocket(s, host, port, autoClose));
+        }
+
+        @Override
+        public java.net.Socket createSocket(String host, int port) throws java.io.IOException {
+            return enable(delegate.createSocket(host, port));
+        }
+
+        @Override
+        public java.net.Socket createSocket(String host, int port, java.net.InetAddress localHost, int localPort) throws java.io.IOException {
+            return enable(delegate.createSocket(host, port, localHost, localPort));
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.InetAddress host, int port) throws java.io.IOException {
+            return enable(delegate.createSocket(host, port));
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.InetAddress address, int port, java.net.InetAddress localAddress, int localPort) throws java.io.IOException {
+            return enable(delegate.createSocket(address, port, localAddress, localPort));
         }
     }
 

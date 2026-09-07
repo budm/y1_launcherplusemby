@@ -90,27 +90,30 @@ public class SettingsMenuManager {
             ((android.widget.ScrollView) parent).scrollTo(0, 0);
         }
 
-        main.containerSettingsItems.addView(createCategoryButton(t("Audio & Playback"), 0, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("About Device"), 0, new Runnable() {
+            public void run() { main.buildAboutDeviceUI(); }
+        }));
+        main.containerSettingsItems.addView(createCategoryButton(t("Audio & Playback"), 1, new Runnable() {
             public void run() { buildAudioSettingsUI(); }
         }));
-        main.containerSettingsItems.addView(createCategoryButton(t("Display & Menu"), 1, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("Display & Menu"), 2, new Runnable() {
             public void run() { buildDisplaySettingsUI(); }
         }));
         // 🚀 [수정] 테마가 세 번째 자리이므로 번호표를 '2'로 줍니다!
-        main.containerSettingsItems.addView(createCategoryButton(t("Theme"), 2, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("Theme"), 3, new Runnable() {
             public void run() { main.buildThemeSelectorUI(); }
         }));
         // 🚀 [수정] 그 아래부터는 하나씩 밀려서 3, 4, 5, 6이 됩니다!
-        main.containerSettingsItems.addView(createCategoryButton(t("Control & Feedback"), 3, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("Control & Feedback"), 4, new Runnable() {
             public void run() { buildControlSettingsUI(); }
         }));
-        main.containerSettingsItems.addView(createCategoryButton(t("Network & Connections"), 4, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("Network & Connections"), 5, new Runnable() {
             public void run() { buildNetworkSettingsUI(); }
         }));
-        main.containerSettingsItems.addView(createCategoryButton(t("Data & Storage"), 5, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("Data & Storage"), 6, new Runnable() {
             public void run() { buildDataSettingsUI(); }
         }));
-        main.containerSettingsItems.addView(createCategoryButton(t("System"), 6, new Runnable() {
+        main.containerSettingsItems.addView(createCategoryButton(t("System"), 7, new Runnable() {
             public void run() { buildSystemSettingsUI(); }
         }));
 
@@ -963,16 +966,6 @@ public class SettingsMenuManager {
             }
         });
         main.containerSettingsItems.addView(btnBatteryTime);
-
-        LinearLayout btnAboutDevice = createSettingRow(t("About Device"), "〉 ");
-        btnAboutDevice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickFeedback();
-                main.buildAboutDeviceUI();
-            }
-        });
-        main.containerSettingsItems.addView(btnAboutDevice);
 
         focusFirstItem();
     }

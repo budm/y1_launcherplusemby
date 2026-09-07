@@ -1,19 +1,21 @@
 {
   "elements": [
     {
-      "versionCode": 900062,
-      "versionName": "0.11.6 hotfix 4 (custom: Emby Sync r2)",
-      "outputFile": "https://github.com/budm/y1_launcherplusemby/raw/refs/heads/master/app/build/outputs/apk/debug/JJ.apk",
+      "versionCode": 900063,
+      "versionName": "0.11.6 hotfix 4 (custom: Emby Sync r3)",
+      "outputFile": "https://github.com/budm/y1_launcherplusemby/raw/refs/heads/master/app/build/outputs/apk/release/JJ.apk",
       "changelog": [
-        "Fixed screen timeout not persisting across reboots",
-        "Fixed sync freezing the device on large libraries (wake lock, connection leak, throttled UI updates)",
-        "Fixed silently truncated downloads causing M4A/ALAC playback errors",
-        "Fixed System Update network error (metadata + APK download)",
-        "Fixed Date & Time and About Device screens losing focus on open",
-        "Added Reboot option next to Power Off",
-        "Added About Device screen (library stats, storage, fun facts, credits)",
-        "Moved sync progress indicator to bottom-right corner",
-        "OTA APK download now uses a full URL, hosted separately from the metadata JSON"
+        "Fixed podcasts and Last.fm hardened against same TLS failure as System Update",
+        "Found and fixed System Update root cause: Conscrypt silently failing on this device",
+        "Moved time sync off a now-defunct API to real NTP + IP geolocation",
+        "Sync freeze: renewing wake lock, explicit timeouts, skip unneeded rescans",
+        "Sync now resumes from exactly where it stopped, not within ~24 files",
+        "Fixed changelog display (reachable and no longer cut off)",
+        "Added Reboot option",
+        "About Device moved to top of Settings, with new header design",
+        "Added install success/failure feedback",
+        "Set up dedicated release keystore for stable OTA signing",
+        "Added menu-reorder discoverability hint"
       ]
     }
   ]

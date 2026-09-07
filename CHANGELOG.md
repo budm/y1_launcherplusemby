@@ -5,6 +5,72 @@ JJ Launcher) are documented here. Versions are keyed by `versionCode` /
 `versionName` from `app/build.gradle`, matching what the in-device System
 Update page compares against.
 
+## [900063] - 0.11.6 hotfix 4 (custom: Emby Sync r3)
+
+### Fixed
+- **Podcasts were very likely completely broken** — all four podcast
+  networking call sites (downloading episodes, browsing an RSS feed,
+  searching via Apple's API, and loading search-result thumbnails) used
+  the same `SSLContext.getInstance("TLS", "Conscrypt")` pattern that turned
+  out to be silently failing device-wide (see System Update fix below).
+  All four now use the same proven fix.
+- **Last.fm scrobbling hardened against the same class of failure** — it
+  didn't hit the Conscrypt crash (it never asked for Conscrypt by name),
+  but it also never explicitly enabled TLS 1.1/1.2, leaving it one
+  tightened-server-requirements away from the identical symptom. Also
+  removed a silent setup-failure fallback that would have masked the
+  real cause if it ever did fail.
+- **System Update "Network Error" — root cause finally found and fixed**,
+  across several rounds: Conscrypt itself was confirmed silently failing
+  to register at all on this device (a `catch (Throwable e) {
+  e.printStackTrace(); }` around its setup meant this was never visible
+  anywhere but logcat). Replaced with the platform's own SSL engine with
+  TLS 1.1/1.2 explicitly forced on, plus a trust-all certificate manager
+  (this device's root CA store doesn't recognize GitHub's current chain).
+  Applies to both the metadata fetch and the APK download.
+- Time sync: replaced `worldtimeapi.org`, which has permanently shut
+  down, with real NTP (`time.google.com`) for time and `ip-api.com` for
+  timezone — a more durable design than depending on one small free API.
+- Time sync: removed sending `ACTION_TIMEZONE_CHANGED`, a protected
+  broadcast no regular app can send even with root — confirmed via a
+  `SecurityException` in testing. The timezone still gets set correctly
+  via the root shell command; only the redundant broadcast is gone.
+- Changelog on the System Update screen was unreachable by wheel
+  navigation (nothing focusable to scroll to), then — once that was
+  fixed — still got cut off because it was one oversized text block with
+  nowhere further to focus. Changelog lines are now individual focusable
+  rows, so the wheel can step through all of them like everything else
+  in these screens.
+- Sync could still freeze on large libraries after the first round of
+  fixes: the wake lock had a flat 30-minute ceiling (now renews itself
+  as long as the sync is still making progress), network calls had no
+  explicit timeouts (now 15s/30s/15s connect/read/write), and every sync
+  triggered a full blocking library rescan even when nothing changed
+  (now skipped unless something was actually downloaded or pruned).
+- Sync manifest now saves after every successful download instead of
+  batching every 25 — a failed/interrupted sync now resumes from exactly
+  where it stopped rather than within ~24 files of it.
+
+### Added
+- Reboot option next to Power Off, with the same confirmation dialog.
+- About Device screen: library counts, storage, fun facts, credits —
+  now the first item in Settings (was under System), with a centered
+  disc emoji and build number header.
+- Install success/failure is now shown as a toast on next launch,
+  reading the log the installer already wrote but nothing ever checked.
+- A dedicated release keystore, so OTA updates keep signing consistently
+  regardless of which machine/Android Studio install builds them (see
+  `KEYSTORE_SETUP.md`) — previously relied on the ambient debug keystore.
+- Instructional hint on the "Main Menu Items" screen ("Tap to show/hide
+  • Long-press to reorder") — reordering already existed but had zero
+  on-screen indication it was possible.
+
+### Changed
+- Sync progress indicator moved from top-right to bottom-right.
+- OTA APK download now reads a full URL from `outputFile` instead of
+  joining a filename onto `SERVER_BASE_URL`, since the APK is hosted at
+  a different path than the metadata JSON.
+
 ## [900062] - 0.11.6 hotfix 4 (custom: Emby Sync r2)
 
 ### Fixed
